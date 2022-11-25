@@ -1,0 +1,7 @@
+{
+  "name": "Geolife",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
