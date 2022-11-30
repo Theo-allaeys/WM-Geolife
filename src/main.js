@@ -37,3 +37,11 @@ app.provide('axios', app.config.globalProperties.axios);
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+import * as IonComponents from '@ionic/vue';
+
+Object.keys(IonComponents).forEach(key => {
+    if (/^Ion[A-Z]\w+$/.test(key)) {
+        app.component(key, IonComponents[key]);
+    }
+});
