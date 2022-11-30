@@ -9,18 +9,58 @@
 <div class="slider">
   <ion-range @ionChange="onIonChange" :ticks="true" :snaps="true" :min="1" :max="10" :pin="true" :pin-formatter="pinFormatter"></ion-range>
 </div>
-        
-      </div>
+
+  <capacitor-google-map id="map"></capacitor-google-map>
+<ion-button @click="createMap">create map</ion-button>
+
+      </div>   
     </ion-content>
   </ion-page>
 </template>
 
 <script setup>
-     let pinFormatter = (value= Number) => `${value}km`;
+import { GoogleMap } from '@capacitor/google-maps';
+import {onIonViewWillEnter} from '@ionic/vue';
+import {Geolocation} from '@capacitor/geolocation';
+import { ref } from 'vue';
+     
+let pinFormatter = (value= Number) => `${value}km`;
 
      function onIonChange({detail}){
       console.log(detail.value)
      }
+  const createMap = async () => {
+    const mapRef = document.getElementById('map');
+  await GoogleMap.create({
+      id: 'my-map', // Unique identifier for this map instance
+      element: mapRef, // reference to the capacitor-google-map element
+      apiKey: 'AIzaSyCyBNLETssLzv7nOD-gwQ9ke4Q_YSVOmWQ', // Your Google Maps API Key
+      config: {
+        center: {
+          // The initial position to be rendered by the map
+          lat: coords.value.latitude,
+          lng: coords.value.longitude,
+        },
+        zoom: 1, // The initial zoom level to be rendered by the map
+      },
+    });
+  };
+
+
+const coords = ref({latitude:4,longitude:50});
+
+const getlocation = async () => {
+  let coordinates = await Geolocation.getCurrentPosition();
+  coords.value.latitude = coordinates.coords.latitude;
+  coords.value.longitude = coordinates.coords.longitude;
+};
+
+
+onIonViewWillEnter(() => {
+    createMap();
+    getlocation();
+    console.log(coords)
+});
 
 </script>
 <style>
@@ -38,9 +78,6 @@
   justify-content: center;
   align-content: center;
   align-items: center;
-
-
-
 }
 
 .background_image {
@@ -83,4 +120,24 @@ ion-range {
 ion-range::part(tick) {
     max-width: 2px;
   }
+
+  capacitor-google-map {
+    display: inline-block;
+    width: 50%;
+    height: 30%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  ion-content{
+    opacity: 1;
+  }
+
+.map{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  --background: none !important;
+}
 </style>
