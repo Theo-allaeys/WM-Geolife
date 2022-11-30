@@ -62,7 +62,7 @@ http://ionicframework.com/docs/theming/ */
   /** medium **/
   --ion-color-medium: #173030;
   --ion-color-medium-rgb: 36, 78, 78;
-  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast: #ff7300;
   --ion-color-medium-contrast-rgb: 255, 255, 255;
   --ion-color-medium-shade: #808289;
   --ion-color-medium-tint: #9d9fa6;
@@ -70,7 +70,7 @@ http://ionicframework.com/docs/theming/ */
   /** light **/
   --ion-color-light: #ff7300;
   --ion-color-light-rgb: 244, 245, 248;
-  --ion-color-light-contrast: #ffffff;
+  --ion-color-light-contrast: #173030;
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;

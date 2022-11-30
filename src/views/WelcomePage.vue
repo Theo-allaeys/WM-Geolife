@@ -8,8 +8,8 @@
       </div>
 
       <div class="Buttons">
-        <ion-button class="button" color="light" href="/tabs/GameModePage">login</ion-button>
-        <ion-button class="button" color="light" href="/tabs/WelcomePage">register</ion-button>
+        <ion-button class="button" strong="true" color="medium" href="/tabs/GameModePage">login</ion-button>
+        <ion-button class="button" strong="true" color="medium" href="/tabs/WelcomePage">register</ion-button>
       </div>
 </div>
     </ion-content>
@@ -39,6 +39,12 @@
   
 }
 
+ion-title {
+  --color: rgb(255, 255, 255);
+  font-weight: 900;
+  font-size: 3rem;
+}
+
 .background_image{
   background: url('../../public/assets/img/background.png') no-repeat center/cover fixed;
   width: 100%;
@@ -46,10 +52,13 @@
 }
 
 .button{
-  width: 250px;
-  height: 60px;
+  width: 14rem;
+  height: 3rem;
+  margin-top: 1rem;
+  --border-color: #173030;
+  --border-style: solid;
+  --border-width: 0.2rem;
   --border-radius: 25px;
-  --border-color: white;
 }
 
 .logo{
