@@ -7,9 +7,15 @@
         <ion-title>GeoLife</ion-title>
       </div>
       <div class="test2">
+<<<<<<< Updated upstream
         <ion-button strong="true" class="button" color="medium" href="/tabs/WelcomePage">page 2</ion-button>
         <ion-button strong="true" class="button" color="medium" href="/tabs/tab2">page 2</ion-button>
         <ion-button strong="true" class="button" color="medium" href="/tabs/tab2">page 2</ion-button>
+=======
+        <ion-button class="button" color="light" href="/tabs/tab1">page 1</ion-button>
+        <ion-button class="button" color="light" href="/tabs/tab2">page 2</ion-button>
+        <ion-button class="button" color="light" href="/tabs/tab3">page 3</ion-button>
+>>>>>>> Stashed changes
       </div>
 </div>
     </ion-content>
