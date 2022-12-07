@@ -36,7 +36,6 @@
   align-items: center;
   flex-flow: column;
   height: 50%;
-  
 }
 
 ion-title {
