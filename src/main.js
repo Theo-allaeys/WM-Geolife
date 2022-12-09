@@ -45,3 +45,6 @@ Object.keys(IonComponents).forEach(key => {
         app.component(key, IonComponents[key]);
     }
 });
+
+import { createPinia } from 'pinia'
+createApp(App).use(createPinia()).mount('#app')

@@ -8,21 +8,49 @@
         </div>
 
         <div class="Inputs">
-          <ion-input class="input" placeholder="Username" required="true"></ion-input>
-          <ion-input class="input" placeholder="Password" required="true"></ion-input>
+          <ion-input class="input" placeholder="Username" v-model="Username" required="true"></ion-input>
+          <ion-input class="input" placeholder="Password" v-model="Password" required="true"></ion-input>
         </div>
         <div class="Buttons">
-          <ion-button>Bevestig</ion-button>
+          <ion-button @click="getvak()">Bevestig</ion-button>
         </div>
       </div>
     </ion-content>
   </ion-page>
 </template>
-  
+
 <script setup>
-//  import { ref, inject } from 'vue';
-//  const axios = inject('axios') // inject axios
-//  const Username = ref(''), Password= ref('');
+import { ref, inject } from 'vue';
+import { useIonRouter } from '@ionic/vue';
+import { useLoginStore } from '../stores/loginstore';
+const axios = inject('axios')
+const Username = ref(''), Password = ref('');
+const store = useLoginStore()
+const ionRouter = useIonRouter();
+
+const getvak = () => {
+  axios
+    .post('https://theoallaeys2021.be/web&mobile/taak1/api/LOGIN.php', {
+      Username: Username.value,
+      Password: Password.value
+    })
+    .then(response => {
+      // controleer de response
+      if (response.status !== 200) {
+        // er is iets fout gegaan, doe iets met deze info
+        console.log(response.status);
+      }
+      if (response.data.data.length == 0) {
+        console.log('response.data.data is not ok');
+        return;
+      } else {
+        console.log(response.data.data[0])
+        store.addProduct(response.data.data[0].id);
+        console.log(store.$state.id)
+        ionRouter.push('/tabs/tab1');
+      }
+    });
+};
 </script>
   
 <style>

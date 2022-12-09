@@ -25,30 +25,6 @@ function onIonChange({ detail }) {
   console.log(detail.value)
 }
 
-onIonViewWillEnter(() => {
-  getlocation();
-});
-</script>
-<script>
-import {Geolocation} from '@capacitor/geolocation'
-import { ref } from 'vue';
-import {onIonViewWillEnter} from '@ionic/vue';
-
-const coord =ref({latitude:null,longitude:null});
-
-const getlocation = async () => {
-  let coordinates = await Geolocation.getCurrentPosition();
-  coord.value.latitude = coordinates.value.latitude;
-  coord.value.longitude = coordinates.value.longitude;
-  console.log(coord.value.latitude, coord.value.longitude);
-}
-console.log(coord.value.latitude, coord.value.longitude);
-export const settings = {
-  latitude: coord.value.latitude,
-  longitude: coord.value.longitude,
-}
-
-
 </script>
 
 <style>
