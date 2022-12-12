@@ -4,7 +4,7 @@ import TabsPage from '../views/TabsPage.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/tabs/GameModePage'
+    redirect: '/tabs/tab1'
   },
   {
     path: '/tabs/',
@@ -12,10 +12,10 @@ const routes = [
     children: [
       {
         path: '',
-        redirect: '/tabs/GameModePage'
+        redirect: '/tabs/tab3'
       },
       {
-        path: 'GameModePage',
+        path: 'tab1',
         component: () => import('@/views/GameModePage.vue')
       },
       {
@@ -24,7 +24,15 @@ const routes = [
       },
       {
         path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
+        component: () => import('@/views/GameLobbySolo.vue')
+      },
+      {
+        path: 'tab4',
+        component: () => import('@/views/LoginPage.vue')
+      },
+      {
+        path: 'tab5',
+        component: () => import('@/views/Game.vue')
       }
     ]
   }
