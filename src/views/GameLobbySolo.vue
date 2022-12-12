@@ -6,10 +6,6 @@
           <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
           <ion-title>GeoLife</ion-title>
         </div>
-        <div class="slider">
-          <ion-range @ionChange="onIonChange" :ticks="true" :snaps="true" :min="1" :max="10" :pin="true"
-            :pin-formatter="pinFormatter"></ion-range>
-        </div>
         <MapDiv></MapDiv>
       </div>
     </ion-content>
@@ -19,11 +15,6 @@
 <script setup>
 import MapDiv from '@/components/Map'
 
-let pinFormatter = (value = Number) => `${value}km`;
-
-function onIonChange({ detail }) {
-  console.log(detail.value)
-}
 
 </script>
 
@@ -35,13 +26,6 @@ function onIonChange({ detail }) {
   align-items: center;
   flex-flow: column;
   color: #ffffff;
-}
-
-.slider {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
 }
 
 .background_image {
@@ -61,27 +45,4 @@ function onIonChange({ detail }) {
   max-width: 100px;
 }
 
-ion-range {
-  --bar-background: #173030;
-  --bar-background-active: #ff7300;
-  --bar-height: 8px;
-  --bar-border-radius: 8px;
-  --knob-background: #ffffff;
-  --knob-size: 40px;
-  --pin-background: #173030;
-  --pin-color: #ff7300;
-  margin-top: 20px;
-  max-width: 90%;
-}
-
-ion-range::part(pin) {
-  border-radius: 50%;
-  transform: scale(1.50);
-  top: -22.5px;
-  font-weight: 900;
-}
-
-ion-range::part(tick) {
-  max-width: 2px;
-}
 </style>
