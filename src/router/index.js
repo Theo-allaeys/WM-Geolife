@@ -29,6 +29,10 @@ const routes = [
       {
         path: 'tab4',
         component: () => import('@/views/LoginPage.vue')
+      },
+      {
+        path: 'tab5',
+        component: () => import('@/views/Game.vue')
       }
     ]
   }

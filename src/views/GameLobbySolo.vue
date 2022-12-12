@@ -7,6 +7,14 @@
           <ion-title>GeoLife</ion-title>
         </div>
         <MapDiv></MapDiv>
+        <div class="time">
+          <ion-label id="lblTime">15 MIN</ion-label>
+          <ion-button class="btnTime" @click="timeP()" color="light" strong="true">+</ion-button>
+          <ion-button class="btnTime" @click="timeM()" color="light" strong="true">-</ion-button>
+        </div>
+        <div class="Buttons">
+          <ion-button color="medium" strong="true" @click="start()">Start Game</ion-button>
+        </div>
       </div>
     </ion-content>
   </ion-page>
@@ -14,11 +22,47 @@
 
 <script setup>
 import MapDiv from '@/components/Map'
+import { geolocalisation } from '../stores/loginstore';
+import { gameSession } from '../stores/loginstore';
+import { useIonRouter } from '@ionic/vue';
+const ionRouter = useIonRouter();
+const storeGeo = geolocalisation();
+const store = gameSession();
 
+let time = 15;
+let radius = 1;
+let sessionid = 9999;
+
+function timeP() {
+  const lblTime = document.getElementById("lblTime");
+  if (time < 120) {
+    time += 15;
+  }
+  lblTime.textContent = time + " MIN";
+}
+
+function timeM() {
+  const lblTime = document.getElementById("lblTime");
+  if (time > 15) {
+    time -= 15;
+  }
+  lblTime.textContent = time + " MIN";
+}
+
+function start() {
+  store.addGame(sessionid, time, storeGeo.$state.lat, storeGeo.$state.lon, radius);
+  ionRouter.push('/tabs/tab5');
+}
 
 </script>
 
 <style>
+ion-title {
+  --color: rgb(255, 255, 255);
+  font-weight: 900;
+  font-size: 1.5rem;
+}
+
 .head {
   display: flex;
   justify-content: center;
@@ -34,15 +78,46 @@ import MapDiv from '@/components/Map'
   height: 100%;
 }
 
+
 .button {
   width: 250px;
   height: 60px;
   --border-radius: 25px;
-  --border-color: white;
+}
+
+.Buttons {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-flow: column;
+  margin-top: 10px;
+}
+
+.time {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btnTime {
+  width: 40px;
+  height: 40px;
+  --border-radius: 5px;
 }
 
 .logo {
   max-width: 100px;
+}
+
+ion-label {
+  font-size: 2rem;
+  color:#ffffff;
+  font-weight: 700;
+  font-style: italic;
+  margin-right: 12px;
 }
 
 </style>
