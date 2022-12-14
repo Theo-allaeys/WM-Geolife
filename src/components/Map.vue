@@ -20,7 +20,11 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import { ref } from 'vue';
 import { Point } from 'ol/geom';
+import { geolocalisation } from '../stores/loginstore';
+import { Radiusstore } from '../stores/loginstore';
 
+const storeradius = Radiusstore();
+const storeGeo = geolocalisation();
 const coord = ref({ latitude: 4, longitude: 50 });
 
 export default {
@@ -39,9 +43,9 @@ export default {
         console.log(coordinates);
         coord.value.latitude = coordinates.coords.latitude;
         coord.value.longitude = coordinates.coords.longitude;
-        console.log("ok")
         this.initialCoordinates = [coord.value.longitude, coord.value.latitude];
-        console.log(this.initialCoordinates)
+        storeGeo.addLoca(coord.value.latitude, coord.value.longitude);
+        console.log("store coord " + storeGeo.lat + " " + storeGeo.lon)
         document.getElementById('map').innerHTML = null;
         this.myMap();
       })
@@ -51,9 +55,10 @@ export default {
   },
   methods: {
     onIonChange({ detail }) {
-        console.log(detail.value)
+        console.log(detail.value);
         this.radius = detail.value;
         document.getElementById('map').innerHTML = null;
+        storeradius.addradius(detail.value);
         this.myMap();
       },
 

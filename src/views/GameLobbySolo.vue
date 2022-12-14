@@ -25,12 +25,14 @@ import MapDiv from '@/components/Map'
 import { geolocalisation } from '../stores/loginstore';
 import { gameSession } from '../stores/loginstore';
 import { useIonRouter } from '@ionic/vue';
+import { Radiusstore } from '../stores/loginstore';
+
+const storeradius = Radiusstore();
 const ionRouter = useIonRouter();
 const storeGeo = geolocalisation();
 const store = gameSession();
 
 let time = 15;
-let radius = 1;
 let sessionid = 9999;
 
 function timeP() {
@@ -50,11 +52,11 @@ function timeM() {
 }
 
 function start() {
-  store.addGame(sessionid, time, storeGeo.$state.lat, storeGeo.$state.lon, radius);
+  store.addGame(sessionid, time, storeGeo.$state.lat, storeGeo.$state.lon, storeradius.$state.radius);
   ionRouter.push('/tabs/tab5');
 }
 
-</script>
+</script>                           
 
 <style>
 ion-title {

@@ -51,3 +51,15 @@ export const geolocalisation = defineStore('geolocation', {
   }
 })
 
+export const Radiusstore = defineStore('radius', {
+  state: () => ({
+    radius: []
+  }),
+  actions: {
+    addradius(radius) {
+      this.radius = [];
+      this.radius.push(radius);
+    }
+  }
+})
+
