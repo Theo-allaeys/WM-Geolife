@@ -11,6 +11,9 @@
           <ion-label id="lblDistance"></ion-label>
           <ion-label id="lblId"></ion-label>
         </div>
+        <div id="imagediv">
+
+        </div>
       </div>
     </ion-content>
   </ion-page>
@@ -23,10 +26,9 @@ const axios = inject('axios')
 const store = gameSession();
 let sec = 60;
 let timeGame = store.$state.time[0] - 1;
-let selectablePOI = [];
 const coordUser = ref({ latitude: store.$state.lat[0], longitude: store.$state.lon[0] });
-const selectedPOI = ref({id: null, latitude: null, longitude: null, namePoi: null, photo: null })
-console.log(" coords user" + coordUser.value)
+const selectedPOI = ref({ id: null, latitude: null, longitude: null, namePoi: null, photo: null })
+console.log("game settings", store.$state)
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
@@ -44,6 +46,65 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
 }
+
+const getPOIfromid = (selectedid) => {
+  axios
+    .post('https://theoallaeys2021.be/web&mobile/taak1/api/getselecPOI.php', {
+      id: selectedid,
+
+    })
+    .then(response => {
+      // controleer de response
+      if (response.status !== 200) {
+        // er is iets fout gegaan, doe iets met deze info
+        console.log(response.status);
+      }
+      if (response.data.data.length == 0) {
+        console.log('response.data.data is not ok');
+        return;
+      } else {
+        console.log(response.data.data[0])
+        selectedPOI.value.id = selectedid;
+        selectedPOI.value.latitude = response.data.data[0].latitude;
+        selectedPOI.value.longitude = response.data.data[0].longitude;
+        selectedPOI.value.namePoi = response.data.data[0].name;
+        selectedPOI.value.photo = response.data.data[0].photo;
+        let img = document.createElement('img');
+        img.src = selectedPOI.value.photo;
+        document.getElementById('imagediv').appendChild(img);
+      }
+    });
+};
+
+const getallPOI = () => {
+  axios
+    .post('https://theoallaeys2021.be/web&mobile/taak1/api/getallPOI.php')
+    .then(response => {
+      // controleer de response
+      if (response.status !== 200) {
+        // er is iets fout gegaan, doe iets met deze info
+        console.log(response.status);
+      }
+      if (!response.data.data) {
+        console.log('response.data.data is not ok');
+        return;
+      } else {
+        console.log(response.data);
+        let selectablePOI = [];
+        for (let i = 0, end = response.data.data.length; i < end; i++) {
+          if (getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, response.data.data[i].latitude, response.data.data[i].longitude) <= store.radius * 100) {
+            selectablePOI.push(response.data.data[i].id);
+          }
+        }
+        let rndInt = Math.floor(Math.random() * (selectablePOI.length - 1) + 1);
+        console.log(rndInt)
+        getPOIfromid(rndInt);
+      }
+    });
+}
+
+getallPOI();
+
 
 function startGame() {
   setInterval(function countDown() {
@@ -69,66 +130,7 @@ function startGame() {
   }, 1000);
 }
 
-const getallPOI = () => {
-  axios
-    .post('https://theoallaeys2021.be/web&mobile/taak1/api/getallPOI.php')
-    .then(response => {
-      // controleer de response
-      if (response.status !== 200) {
-        // er is iets fout gegaan, doe iets met deze info
-        console.log(response.status);
-      }
-      if (!response.data.data) {
-        console.log('response.data.data is not ok');
-        return;
-      } else {
-        console.log(response.data);
-        selectablePOI = [];
-        for (let i = 0, end = response.data.data.length; i < end; i++) {
-          if (getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, response.data.data[i].latitude, response.data.data[i].longitude) <= store.radius / 2) {
-            selectablePOI.push(response.data.data[i].id);
-          }
-        }
-      }
-    });
-}
-
-const getPOIfromid = (selectedid) => {
-  axios
-    .post('https://theoallaeys2021.be/web&mobile/taak1/api/getselecPOI.php', {
-      id: selectedid,
-
-    })
-    .then(response => {
-      // controleer de response
-      if (response.status !== 200) {
-        // er is iets fout gegaan, doe iets met deze info
-        console.log(response.status);
-      }
-      if (response.data.data.length == 0) {
-        console.log('response.data.data is not ok');
-        return;
-      } else {
-        console.log(response.data.data[0])
-        selectedPOI.value.id = selectedid;
-        selectedPOI.value.latitude = response.data.data[0].latitude;
-        selectedPOI.value.longitude = response.data.data[0].longitude;
-        selectedPOI.value.namePoi = response.data.data[0].name;
-        selectedPOI.value.photo = response.data.data[0].photo
-      }
-    });
-};
-
-function initiategame(){
-  getallPOI();
-  const rndInt = Math.floor(Math.random() * (selectablePOI.length - 1))
-  getPOIfromid(selectablePOI[rndInt]);
-//calculer la distance pour montrer au debut
-//afficher l'image qui est dans selectedPOI.value.photo avec peutaire base64 (a voir)
-//en dernier demarrer le jeux et peutaitre rajouter les chose aux quelles jai pas pensé
 startGame();
-}
-initiategame();
 </script>
 
 <style>
