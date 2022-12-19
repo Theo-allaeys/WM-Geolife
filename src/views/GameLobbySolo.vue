@@ -62,7 +62,8 @@ function start() {
 ion-title {
   --color: rgb(255, 255, 255);
   font-weight: 900;
-  font-size: 1.5rem;
+  font-size: 3rem;
+  max-height: 35%;
 }
 
 .head {

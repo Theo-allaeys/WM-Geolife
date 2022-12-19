@@ -11,7 +11,7 @@
           <ion-label id="lblDistance"></ion-label>
           <ion-label id="lblId"></ion-label>
         </div>
-        <div id="imagediv">
+        <div id="imagediv" >
 
         </div>
       </div>
@@ -47,6 +47,30 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180)
 }
 
+function startGame() {
+  setInterval(function countDown() {
+    const lblTime = document.getElementById("lblTime2");
+    if (sec > 0) {
+      if (sec <= 10) {
+        sec--;
+        lblTime.textContent = timeGame + ":0" + sec;
+      }
+      else {
+        sec--;
+        lblTime.textContent = timeGame + ":" + sec;
+      }
+    }
+    else {
+      sec = 59;
+      timeGame--;
+      lblTime.textContent = timeGame + ":" + sec;
+    }
+    if (timeGame < 0) {
+      lblTime.textContent = "00:00";
+    }
+  }, 1000);
+}
+
 const getPOIfromid = (selectedid) => {
   axios
     .post('https://theoallaeys2021.be/web&mobile/taak1/api/getselecPOI.php', {
@@ -72,6 +96,8 @@ const getPOIfromid = (selectedid) => {
         let img = document.createElement('img');
         img.src = selectedPOI.value.photo;
         document.getElementById('imagediv').appendChild(img);
+        img.classList.add('POIimage');
+        startGame();
       }
     });
 };
@@ -89,16 +115,20 @@ const getallPOI = () => {
         console.log('response.data.data is not ok');
         return;
       } else {
-        console.log(response.data);
         let selectablePOI = [];
         for (let i = 0, end = response.data.data.length; i < end; i++) {
-          if (getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, response.data.data[i].latitude, response.data.data[i].longitude) <= store.radius * 100) {
+          if (getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, response.data.data[i].latitude, response.data.data[i].longitude) <= store.radius) {
             selectablePOI.push(response.data.data[i].id);
           }
         }
-        let rndInt = Math.floor(Math.random() * (selectablePOI.length - 1) + 1);
+        if (selectablePOI.length == 0){
+          document.getElementById('imagediv').innerHTML = "<p>no points are currently available in your selected area</p>"
+        }else{
+          console.log(selectablePOI)
+        let rndInt = Math.floor(Math.random() * selectablePOI.length + 1);
         console.log(rndInt)
         getPOIfromid(rndInt);
+        }
       }
     });
 }
@@ -106,31 +136,9 @@ const getallPOI = () => {
 getallPOI();
 
 
-function startGame() {
-  setInterval(function countDown() {
-    const lblTime = document.getElementById("lblTime2");
-    if (sec > 0) {
-      if (sec <= 10) {
-        sec--;
-        lblTime.textContent = timeGame + ":0" + sec;
-      }
-      else {
-        sec--;
-        lblTime.textContent = timeGame + ":" + sec;
-      }
-    }
-    else {
-      sec = 59;
-      timeGame--;
-      lblTime.textContent = timeGame + ":" + sec;
-    }
-    if (timeGame < 0) {
-      lblTime.textContent = "00:00";
-    }
-  }, 1000);
-}
 
-startGame();
+
+
 </script>
 
 <style>
@@ -174,5 +182,20 @@ ion-label {
   color: #ffffff;
   font-weight: 700;
   margin-right: 12px;
+}
+
+#imagediv{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80%;
+
+}
+img{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80%;
 }
 </style>

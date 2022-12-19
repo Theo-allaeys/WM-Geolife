@@ -33,6 +33,10 @@ const routes = [
       {
         path: 'tab5',
         component: () => import('@/views/Game.vue')
+      },
+      {
+        path: 'tab6',
+        component: () => import('@/views/addPOI.vue')
       }
     ]
   }

@@ -23,7 +23,6 @@
 
 .head {
   display: flex;
-  justify-content: center;
   align-content: center;
   align-items: center;
   flex-flow: column;
@@ -42,6 +41,7 @@ ion-title {
   --color: rgb(255, 255, 255);
   font-weight: 900;
   font-size: 3rem;
+  max-height: 80%;
 }
 
 .background_image{

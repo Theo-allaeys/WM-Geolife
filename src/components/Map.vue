@@ -103,6 +103,7 @@ export default {
   justify-content: center;
   align-content: center;
   align-items: center;
+  margin-top: 30px;
 }
 
 ion-range {
