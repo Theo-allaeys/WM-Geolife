@@ -2,17 +2,21 @@
   <ion-page>
     <ion-content :fullscreen="true" transparent>
       <div class="background_image">
+        <div id="div__time">
+          <ion-label id="lblTime2"></ion-label>
+          <ion-label id="lblDistance">1356 M</ion-label>
+        </div>
         <div class="head">
           <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
           <ion-label>GeoLife</ion-label>
         </div>
-        <div class="game">
-          <ion-label id="lblTime2"></ion-label>
-          <ion-label id="lblDistance"></ion-label>
-          <ion-label id="lblId"></ion-label>
-        </div>
-        <div id="imagediv" >
-
+          <div id="game">
+              <div id="div__btncheck">
+                <IonButton expand="block" @click="checkDistance()" strong="true" color="medium" id="check">Check Distnace</IonButton>
+              </div>
+          </div>
+        <div id="div__btn">
+        <ion-button color="dark" id="btn__end" strong="true" @click="EndGame()">End Game</ion-button>
         </div>
       </div>
     </ion-content>
@@ -20,16 +24,20 @@
 </template>
 
 <script setup>
+import { IonButton } from '@ionic/vue';
+//import { Geolocation } from '@capacitor/geolocation';
 import { gameSession } from '../stores/loginstore';
-import { ref, inject } from 'vue';
-const axios = inject('axios')
+//import { ref, inject } from 'vue';
+//const axios = inject('axios')
 const store = gameSession();
+//let InitialDistance = "";
 let sec = 60;
 let timeGame = store.$state.time[0] - 1;
-const coordUser = ref({ latitude: store.$state.lat[0], longitude: store.$state.lon[0] });
-const selectedPOI = ref({ id: null, latitude: null, longitude: null, namePoi: null, photo: null })
-console.log("game settings", store.$state)
 
+//const coordUser = ref({ latitude: store.$state.lat[0], longitude: store.$state.lon[0] });
+//const selectedPOI = ref({ id: null, latitude: null, longitude: null, namePoi: null, photo: null })
+console.log("game settings", store.$state)
+/*
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1);  // deg2rad below
@@ -46,6 +54,29 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
 }
+function hmsToSecondsOnly(str) {
+  var p = str.split(':'),
+    s = 0, m = 1;
+
+  while (p.length > 0) {
+    s += m * parseInt(p.pop(), 10);
+    m *= 60;
+  }
+  console.log(s)
+  return s;
+}
+*/
+
+function checkDistance() {
+  const lbldistance = document.getElementById("lblDistance");
+  const lblTime = document.getElementById("lblTime2");
+  document.getElementById("game").style.backgroundImage = "url(https://theoallaeys2021.be/POI_images/91-days.jpg)";
+  lbldistance.textContent = "1013 M";
+  let percentage = (timeGame/100) * 16;
+  console.log(Math.round(percentage));
+  timeGame = timeGame - Math.round(percentage);
+  lblTime.textContent = " " + timeGame + ":" + sec + " ";
+}
 
 function startGame() {
   setInterval(function countDown() {
@@ -53,24 +84,25 @@ function startGame() {
     if (sec > 0) {
       if (sec <= 10) {
         sec--;
-        lblTime.textContent = timeGame + ":0" + sec;
+        lblTime.textContent = " " + timeGame + ":0" + sec + " ";
       }
       else {
         sec--;
-        lblTime.textContent = timeGame + ":" + sec;
+        lblTime.textContent = " " + timeGame + ":" + sec + " ";
       }
     }
     else {
       sec = 59;
       timeGame--;
-      lblTime.textContent = timeGame + ":" + sec;
+      lblTime.textContent = " " + timeGame + ":" + sec + " ";
     }
     if (timeGame < 0) {
-      lblTime.textContent = "00:00";
+      lblTime.textContent = " 00:00 ";
     }
   }, 1000);
 }
 
+/*
 const getPOIfromid = (selectedid) => {
   axios
     .post('https://theoallaeys2021.be/web&mobile/taak1/api/getselecPOI.php', {
@@ -97,6 +129,7 @@ const getPOIfromid = (selectedid) => {
         img.src = selectedPOI.value.photo;
         document.getElementById('imagediv').appendChild(img);
         img.classList.add('POIimage');
+        InitialDistance = getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude);
         startGame();
       }
     });
@@ -133,12 +166,58 @@ const getallPOI = () => {
     });
 }
 
+function EndGame() {
+  let timesec = hmsToSecondsOnly(document.getElementById("lblTime2").textContent);
+  let Distance = 0;
+  Geolocation.getCurrentPosition().then((coordinates) => {
+    console.log(coordinates);
+    Distance = getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000;
+  });
+  let timeleft = 0;
+  let totalpoints
+  switch (store.$state.time[0]) {
+    case 15: timeleft = (timesec / 900) * 100; break;
+    case 30: timeleft = (timesec / 1800) * 100; break;
+    case 45: timeleft = (timesec / 2700) * 100; break;
+    case 60: timeleft = (timesec / 3600) * 100; break;
+    case 75: timeleft = (timesec / 4500) * 100; break;
+    case 90: timeleft = (timesec / 5400) * 100; break;
+    case 105: timeleft = (timesec / 6300) * 100; break;
+    case 120: timeleft = (timesec / 7200) * 100; break;
+  }
+  if (timeleft >= 50) {
+    totalpoints = 50;
+  } else {
+    totalpoints = timeleft;
+  }
+if(Distance <= 10){
+  totalpoints =+ 50;
+}
+else if(Distance <= 20){
+  totalpoints =+ 95/2;
+}
+else if(Distance <= 50){
+  totalpoints =+ 90/2;
+}
+else if(Distance <= 100){
+  totalpoints =+ 80/2;
+}
+else if(Distance <= 200){
+  totalpoints =+ 70/2;
+}
+else if(Distance <= 500){
+  totalpoints =+ 50;
+}
+else if(Distance >= 1000){
+  totalpoints = 0;
+}
+
+console.log(totalpoints)
+}
+
 getallPOI();
-
-
-
-
-
+*/
+startGame();
 </script>
 
 <style>
@@ -147,6 +226,32 @@ ion-title {
   font-weight: 900;
   font-size: 1.5rem;
 }
+
+#imagediv {
+  height: 500px;
+  width: 85%;
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+#check {
+  margin: 0;
+  width: 100%;
+  --border-radius: 0%;
+  height: 32px;
+}
+
+#game {
+  margin: 12px 0 12px 0;
+  background-image: url(https://theoallaeys2021.be/POI_images/The_Atomium.jpg);
+  background-size: cover;
+  height: 50%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 
 .head {
   display: flex;
@@ -157,18 +262,49 @@ ion-title {
   color: #ffffff;
 }
 
+#div__btn {
+  text-align: center;
+}
+
 .game {
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
   flex-flow: column;
-  margin-top: 10px;
 }
+
+#lblTime2 {
+  background-color: #ff7300;
+  width: 100px;
+  padding: 20px 0 20px 0;
+  text-align: center;
+  border-radius: 0px 0px 12px 0px;
+  font-size: 20px;
+}
+
+#lblDistance {
+  background-color: #ff7300;
+  width: 100px;
+  margin-right: 0px;
+  padding: 20px 0 20px 0;
+  text-align: center;
+  border-radius: 0px 0px 0px 12px;
+  font-size: 20px;
+}
+
+
+
+#div__time {
+  
+  display: flex;
+  justify-content: space-between;
+}
+
+
 
 .background_image {
   background: url('../../public/assets/img/background.png') no-repeat center/cover fixed;
-  width: 100%;
   height: 100%;
 }
 
@@ -181,10 +317,9 @@ ion-label {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: #ffffff;
   font-weight: 700;
-  margin-right: 12px;
 }
 
-#imagediv{
+#imagediv {
   display: flex;
   justify-content: center;
   align-content: center;
@@ -193,7 +328,8 @@ ion-label {
   max-width: 80%;
 
 }
-img{
+
+img {
   margin-left: auto;
   margin-right: auto;
   max-width: 80%;
