@@ -26,11 +26,13 @@
 <script setup>
 import { IonButton } from '@ionic/vue';
 import { Geolocation } from '@capacitor/geolocation';
+import { useIonRouter } from '@ionic/vue';
 import { gameSession } from '../stores/loginstore';
 import { Scorestore } from '../stores/loginstore';
 import { ref, inject } from 'vue';
 const axios = inject('axios')
 const store = gameSession();
+const ionRouter = useIonRouter();
 const scorestore = Scorestore();
 let InitialDistance = "";
 let sec = 60;
@@ -214,7 +216,9 @@ else if(Distance >= 1000){
   totalpoints = 0;
 }
 
-scorestore.addscore(totalpoints)
+console.log(totalpoints);
+scorestore.addscore(totalpoints);
+ionRouter.push('/tabs/tab7');
 }
 
 getallPOI();

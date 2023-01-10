@@ -68,7 +68,7 @@ export const Scorestore = defineStore('score', {
     score: []
   }),
   actions: {
-    addradius(score) {
+    addscore(score) {
       this.score = [];
       this.score.push(score);
     }

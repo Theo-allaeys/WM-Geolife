@@ -37,6 +37,10 @@ const routes = [
       {
         path: 'tab6',
         component: () => import('@/views/addPOI.vue')
+      },
+      {
+        path: 'tab7',
+        component: () => import('@/views/RewardScreen.vue')
       }
     ]
   }
