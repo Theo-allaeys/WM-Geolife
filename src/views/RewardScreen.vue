@@ -56,6 +56,26 @@ onIonViewDidEnter(() => {
 console.clear();
 </script>
 
+<script setup>
+import {onIonViewDidEnter} from '@ionic/vue';
+// import { Scorestore } from '../stores/loginstore';
+// const scorestore = Scorestore();
+function slowCount(end) {
+  
+  let time = 0.0008 * (100 - end);
+    for (let i = 0; i <= end; i++) {
+        setTimeout(() => {
+          document.getElementById("userScore").innerHTML = i;
+        },  i * i * i * time);
+    }
+}
+onIonViewDidEnter(() => {
+  setTimeout(function() { slowCount(50) }, 100); 
+})
+
+
+</script>
+
 <style>
 #buttons {
   margin-top: 10%;

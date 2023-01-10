@@ -3,8 +3,8 @@
     <ion-content :fullscreen="true" transparent>
       <div class="background_image">
         <div id="div__time">
-          <ion-label id="lblTime2"></ion-label>
-          <ion-label id="lblDistance">0 M</ion-label>
+          <ion-label :class="store.theme" id="lblTime2"></ion-label>
+          <ion-label :class="store.theme" id="lblDistance">0 M</ion-label>
         </div>
         <div class="head">
           <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
@@ -154,7 +154,9 @@ const getallPOI = () => {
           }
         }
         if (selectablePOI.length == 0){
-          document.getElementById('imagediv').innerHTML = "<p>no points are currently available in your selected area</p>"
+          document.getElementById('game').innerHTML = '<div id="noPOI"><ion-label>no points are currently available in your selected area. you will be redirected back to the game lobby in 5 seconds</ion-label></div>';
+          setTimeout(function() { ionRouter.push('/tabs/tab3') }, 5000);
+          
         }else{
           console.log(selectablePOI)
         let rndInt = Math.floor(Math.random() * selectablePOI.length + 1);
@@ -232,6 +234,19 @@ export default defineComponent({
 </script>
 
 <style>
+
+#noPOI {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-flow: column;
+  text-align: center;
+  height: 100%;
+}
+
 ion-title {
   --color: rgb(255, 255, 255);
   font-weight: 900;
@@ -254,7 +269,6 @@ ion-title {
 
 #game {
   margin: 12px 0 12px 0;
-  background-image: url(https://theoallaeys2021.be/POI_images/The_Atomium.jpg);
   background-size: cover;
   height: 50%;
   width: 80%;
@@ -286,7 +300,6 @@ ion-title {
 }
 
 #lblTime2 {
-  background-color: #ff7300;
   width: 100px;
   padding: 20px 0 20px 0;
   text-align: center;
@@ -295,7 +308,6 @@ ion-title {
 }
 
 #lblDistance {
-  background-color: #ff7300;
   width: 100px;
   margin-right: 0px;
   padding: 20px 0 20px 0;

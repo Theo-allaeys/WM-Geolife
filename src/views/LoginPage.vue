@@ -94,10 +94,8 @@ export default defineComponent({
 }
 
 .input {
-  background-color: #ffffff;
   height: 20%;
   border-radius: 25px;
-  color: black;
   font-weight: 900;
   margin-top: 20px;
 }
