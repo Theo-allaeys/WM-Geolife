@@ -8,15 +8,26 @@
       </div>
 
       <div class="Buttons">
-        <ion-button class="button" strong="true" color="medium" href="/tabs/tab4">login</ion-button>
-        <ion-button class="button" strong="true" color="medium" href="/tabs/tab8">register</ion-button>
+        <ion-button class="button" strong="true" :class="store.theme" href="/tabs/tab4">login</ion-button>
+        <ion-button class="button" strong="true" :class="store.theme" href="/tabs/tab8">register</ion-button>
       </div>
 </div>
     </ion-content>
   </ion-page>
 </template>
 
-<script setup>
+<script>
+import { store } from "@/theme/theme";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    data() {
+    return {
+    theme: localStorage.getItem("themeSet"),
+    store,
+    };
+  }
+}); 
 </script>
 
 <style>
@@ -54,9 +65,6 @@ ion-title {
   width: 14rem;
   height: 3rem;
   margin-top: 1rem;
-  --border-color: #173030;
-  --border-style: solid;
-  --border-width: 0.2rem;
   --border-radius: 25px;
 }
 

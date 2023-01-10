@@ -1,7 +1,8 @@
 <template>
-    <ion-page>
-        <ion-content :fullscreen="true">
-            <div class="background_image">
+    <div :class="store.theme">
+        <ion-page>
+            <ion-content :fullscreen="true">
+                <div class="background_image">
                 <div class="head">
                     <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
                     <ion-title>GeoLife</ion-title>
@@ -9,8 +10,9 @@
                 <input type="file" name="files[]" />
                 <ion-button @click="testfile()">Bevestig</ion-button>
             </div>
-        </ion-content>
-    </ion-page>
+            </ion-content>
+        </ion-page>
+    </div>
 </template>
   
 <script setup>
@@ -48,10 +50,10 @@ axios.post('https://theoallaeys2021.be/process.php', formData, {
 }
 
 ion-title {
-  --color: rgb(255, 255, 255);
-  font-weight: 900;
-  font-size: 3rem;
-  max-height: 80%;
+    --color: rgb(255, 255, 255);
+    font-weight: 900;
+    font-size: 3rem;
+    max-height: 80%;
 }
 
 .background_image {
@@ -64,3 +66,4 @@ ion-title {
     max-width: 200px;
 }
 </style>
+

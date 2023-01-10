@@ -1,6 +1,6 @@
 <template>
     <div class="slider">
-    <ion-range @ionChange="onIonChange" :ticks="true" :snaps="true" :min="1" :max="10" :pin="true"
+    <ion-range :class="store.theme" @ionChange="onIonChange" :ticks="true" :snaps="true" :min="1" :max="10" :pin="true"
       :pin-formatter="pinFormatter"></ion-range>
   </div>
   <div id="map" class="map"></div>
@@ -22,6 +22,8 @@ import { ref } from 'vue';
 import { Point } from 'ol/geom';
 import { geolocalisation } from '../stores/loginstore';
 import { Radiusstore } from '../stores/loginstore';
+import { store } from "@/theme/theme";
+
 
 const storeradius = Radiusstore();
 const storeGeo = geolocalisation();
@@ -35,6 +37,8 @@ export default {
       initialCoordinates: [coord.value.latitude, coord.value.longitude],
       pinFormatter: (value = Number) => `${value}km`,
       radius: 1,
+      theme: localStorage.getItem("themeSet"),
+      store,
     };
   },
   mounted() {
@@ -107,14 +111,9 @@ export default {
 }
 
 ion-range {
-  --bar-background: #173030;
-  --bar-background-active: #ff7300;
   --bar-height: 8px;
   --bar-border-radius: 8px;
-  --knob-background: #ffffff;
   --knob-size: 40px;
-  --pin-background: #173030;
-  --pin-color: #ff7300;
   margin-top: 20px;
   max-width: 90%;
 }

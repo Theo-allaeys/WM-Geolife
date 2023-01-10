@@ -12,13 +12,24 @@
         </div>
         <div id="buttons">
           <ion-button color="light">Menu</ion-button>
-          <ion-button color="medium">Play again</ion-button>
+          <ion-button :class="store.theme">Play again</ion-button>
       </div>
       </div>
     </ion-content>
   </ion-page>
 </template>
 <script>
+import { store } from "@/theme/theme";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    data() {
+    return {
+    theme: localStorage.getItem("themeSet"),
+    store,
+    };
+  }
+}); 
 </script>
 
 <style>

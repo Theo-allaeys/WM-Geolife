@@ -41,6 +41,10 @@ const routes = [
       {
         path: 'tab7',
         component: () => import('@/views/RewardScreen.vue')
+      },
+      {
+        path: 'tab8',
+        component: () => import('@/views/LevelPage.vue')
       }
     ]
   }

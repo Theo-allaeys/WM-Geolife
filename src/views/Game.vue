@@ -4,7 +4,7 @@
       <div class="background_image">
         <div id="div__time">
           <ion-label id="lblTime2"></ion-label>
-          <ion-label id="lblDistance">1356 M</ion-label>
+          <ion-label id="lblDistance">0 M</ion-label>
         </div>
         <div class="head">
           <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
@@ -13,7 +13,7 @@
           <div id="game">
           </div>
         <div id="div__btn">
-        <ion-button color="dark" id="btn__end" strong="true" @click="EndGame()">End Game</ion-button>
+        <ion-button :class="store.theme" id="btn__end" strong="true" @click="EndGame()">End Game</ion-button>
         </div>
       </div>
     </ion-content>
@@ -28,16 +28,16 @@ import { gameSession } from '../stores/loginstore';
 import { Scorestore } from '../stores/loginstore';
 import { ref, inject } from 'vue';
 const axios = inject('axios')
-const store = gameSession();
+const storesession = gameSession();
 const ionRouter = useIonRouter();
 const scorestore = Scorestore();
 let InitialDistance = "";
 let sec = 60;
-let timeGame = store.$state.time[0] - 1;
+let timeGame = storesession.$state.time[0] - 1;
 
-const coordUser = ref({ latitude: store.$state.lat[0], longitude: store.$state.lon[0] });
+const coordUser = ref({ latitude: storesession.$state.lat[0], longitude: storesession.$state.lon[0] });
 const selectedPOI = ref({ id: null, latitude: null, longitude: null, namePoi: null, photo: null })
-console.log("game settings", store.$state)
+console.log("game settings", storesession.$state)
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
@@ -149,7 +149,7 @@ const getallPOI = () => {
       } else {
         let selectablePOI = [];
         for (let i = 0, end = response.data.data.length; i < end; i++) {
-          if (getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, response.data.data[i].latitude, response.data.data[i].longitude) <= store.radius) {
+          if (getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, response.data.data[i].latitude, response.data.data[i].longitude) <= storesession.radius) {
             selectablePOI.push(response.data.data[i].id);
           }
         }
@@ -173,7 +173,7 @@ function EndGame() {
   });
   let timeleft = 0;
   let totalpoints
-  switch (store.$state.time[0]) {
+  switch (storesession.$state.time[0]) {
     case 15: timeleft = (timesec / 900) * 100; break;
     case 30: timeleft = (timesec / 1800) * 100; break;
     case 45: timeleft = (timesec / 2700) * 100; break;
@@ -215,6 +215,20 @@ ionRouter.push('/tabs/tab7');
 }
 
 getallPOI();
+</script>
+
+<script>
+import { store } from "@/theme/theme";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    data() {
+    return {
+    theme: localStorage.getItem("themeSet"),
+    store,
+    };
+  }
+}); 
 </script>
 
 <style>

@@ -7,15 +7,28 @@
         <ion-title>GeoLife</ion-title>
       </div>
       <div class="test2">
-        <ion-button class="button" color="medium" href="/tabs/tab3">Solo</ion-button>
-        <ion-button class="button" color="medium" href="#">Multiplayer </ion-button>
-        <ion-button class="button" color="medium" href="/tabs/tab4">disconnect </ion-button>
+        <ion-button class="button" :class="store.theme" href="/tabs/tab3">Solo</ion-button>
+        <ion-button class="button" :class="store.theme" href="#">Multiplayer </ion-button>
+        <ion-button class="button" :class="store.theme" href="/tabs/tab8">Rewards </ion-button>
+        <ion-button class="button" :class="store.theme"  href="/tabs/tab4">disconnect </ion-button>
       </div>
 </div>
     </ion-content>
   </ion-page>
 </template>
-<script setup>
+
+<script>
+import { store } from "@/theme/theme";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    data() {
+    return {
+    theme: localStorage.getItem("themeSet"),
+    store,
+    };
+  }
+}); 
 </script>
 <style>
 
@@ -53,9 +66,6 @@ ion-title {
   width: 14rem;
   height: 3rem;
   margin-top: 1rem;
-  --border-color: #173030;
-  --border-style: solid;
-  --border-width: 0.2rem;
   --border-radius: 25px;
 }
 

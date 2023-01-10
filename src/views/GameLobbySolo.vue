@@ -9,11 +9,11 @@
         <MapDiv></MapDiv>
         <div class="time">
           <ion-label id="lblTime">15 MIN</ion-label>
-          <ion-button class="btnTime" @click="timeP()" color="light" strong="true">+</ion-button>
-          <ion-button class="btnTime" @click="timeM()" color="light" strong="true">-</ion-button>
+          <ion-button class="btnTime" @click="timeP()" :class="store.theme" strong="true">+</ion-button>
+          <ion-button class="btnTime" @click="timeM()" :class="store.theme" strong="true">-</ion-button>
         </div>
         <div class="Buttons">
-          <ion-button color="medium" strong="true" @click="start()">Start Game</ion-button>
+          <ion-button :class="store.theme" strong="true" @click="start()">Start Game</ion-button>
         </div>
       </div>
     </ion-content>
@@ -30,7 +30,7 @@ import { Radiusstore } from '../stores/loginstore';
 const storeradius = Radiusstore();
 const ionRouter = useIonRouter();
 const storeGeo = geolocalisation();
-const store = gameSession();
+const storegame = gameSession();
 
 let time = 15;
 let sessionid = 9999;
@@ -52,11 +52,25 @@ function timeM() {
 }
 
 function start() {
-  store.addGame(sessionid, time, storeGeo.$state.lat, storeGeo.$state.lon, storeradius.$state.radius);
+  storegame.addGame(sessionid, time, storeGeo.$state.lat, storeGeo.$state.lon, storeradius.$state.radius);
   ionRouter.push('/tabs/tab5');
 }
 
-</script>                           
+</script>  
+
+<script>
+import { store } from "@/theme/theme";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    data() {
+    return {
+    theme: localStorage.getItem("themeSet"),
+    store,
+    };
+  }
+}); 
+</script>
 
 <style>
 ion-title {

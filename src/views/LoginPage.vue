@@ -12,7 +12,7 @@
           <ion-input class="input" placeholder="Password" v-model="Password" required="true"></ion-input>
         </div>
         <div class="Buttons">
-          <ion-button @click="getvak()">Bevestig</ion-button>
+          <ion-button :class="store.theme" @click="getvak()">Bevestig</ion-button>
         </div>
       </div>
     </ion-content>
@@ -25,7 +25,7 @@ import { useIonRouter, toastController } from '@ionic/vue';
 import { useLoginStore } from '../stores/loginstore';
 const axios = inject('axios')
 const Username = ref(''), Password = ref('');
-const store = useLoginStore()
+const storegame = useLoginStore()
 const ionRouter = useIonRouter();
 
 const getvak = () => {
@@ -46,8 +46,8 @@ const getvak = () => {
         return;
       } else {
         console.log(response.data.data[0])
-        store.addProduct(response.data.data[0].id);
-        console.log(store.$state.id)
+        storegame.addProduct(response.data.data[0].id);
+        console.log(storegame.$state.id)
         ionRouter.push('/tabs/tab1');
       }
     });
@@ -63,7 +63,21 @@ async function presentToast(position) {
     await toast.present();
   }
 </script>
-  
+
+<script>
+import { store } from "@/theme/theme";
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    data() {
+    return {
+    theme: localStorage.getItem("themeSet"),
+    store,
+    };
+  }
+}); 
+</script>
+
 <style>
 .head {
   display: flex;
@@ -80,7 +94,7 @@ async function presentToast(position) {
 }
 
 .input {
-  background-color: #173030;
+  background-color: #ffffff;
   height: 20%;
   border-radius: 25px;
   color: black;
