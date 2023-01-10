@@ -7,9 +7,9 @@
         <ion-title>GeoLife</ion-title>
       </div>
       <div class="test2">
-        <ion-button class="button" color="medium" href="/tabs/tab1">page 1</ion-button>
-        <ion-button class="button" color="medium" href="/tabs/tab2">page 2</ion-button>
-        <ion-button class="button" color="medium" href="/tabs/tab3">page 3</ion-button>
+        <ion-button class="button" color="medium" href="/tabs/tab3">Solo</ion-button>
+        <ion-button class="button" color="medium" href="#">Multiplayer </ion-button>
+        <ion-button class="button" color="medium" href="/tabs/tab4">disconnect </ion-button>
       </div>
 </div>
     </ion-content>

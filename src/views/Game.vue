@@ -11,9 +11,6 @@
           <ion-label>GeoLife</ion-label>
         </div>
           <div id="game">
-              <div id="div__btncheck">
-                <IonButton expand="block" @click="checkDistance()" strong="true" color="medium" id="check">Check Distnace</IonButton>
-              </div>
           </div>
         <div id="div__btn">
         <ion-button color="dark" id="btn__end" strong="true" @click="EndGame()">End Game</ion-button>
@@ -29,9 +26,11 @@ import { Geolocation } from '@capacitor/geolocation';
 import { gameSession } from '../stores/loginstore';
 import { Scorestore } from '../stores/loginstore';
 import { ref, inject } from 'vue';
+import { useIonRouter } from '@ionic/vue';
 const axios = inject('axios')
 const store = gameSession();
 const scorestore = Scorestore();
+const ionRouter = useIonRouter();
 let InitialDistance = "";
 let sec = 60;
 let timeGame = store.$state.time[0] - 1;
@@ -70,11 +69,6 @@ function hmsToSecondsOnly(str) {
 
 
 function checkDistance() {
-  const lblTime = document.getElementById("lblTime2");
-  let percentage = (timeGame/100) * 16;
-  console.log(Math.round(percentage));
-  timeGame = timeGame - Math.round(percentage);
-  lblTime.textContent = " " + timeGame + ":" + sec + " ";
   Geolocation.getCurrentPosition().then((coordinates) => {
     console.log(coordinates);
     document.getElementById("lblDistance").textContent = Math.round(getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000) + " M";
@@ -99,10 +93,13 @@ function startGame() {
       timeGame--;
       lblTime.textContent = " " + timeGame + ":" + sec + " ";
     }
+    if (sec == 30 || sec == 0) {
+      checkDistance()
+    }
     if (timeGame < 0) {
       lblTime.textContent = " 00:00 ";
     }
-  }, 1000);
+  }, 500);
 }
 
 
@@ -172,7 +169,6 @@ function EndGame() {
   let timesec = hmsToSecondsOnly(document.getElementById("lblTime2").textContent);
   let Distance = 0;
   Geolocation.getCurrentPosition().then((coordinates) => {
-    console.log(coordinates);
     Distance = Math.round(getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000);
   });
   let timeleft = 0;
@@ -213,8 +209,9 @@ else if(Distance <= 500){
 else if(Distance >= 1000){
   totalpoints = 0;
 }
-
-scorestore.addscore(totalpoints)
+console.log(totalpoints);
+scorestore.addscore(totalpoints);
+ionRouter.push('/tabs/tab7');
 }
 
 getallPOI();

@@ -4,7 +4,7 @@ import TabsPage from '../views/TabsPage.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/tabs/tab1'
+    redirect: '/tabs/tab2'
   },
   {
     path: '/tabs/',
@@ -12,7 +12,7 @@ const routes = [
     children: [
       {
         path: '',
-        redirect: '/tabs/tab1'
+        redirect: '/tabs/tab2'
       },
       {
         path: 'tab1',
@@ -37,6 +37,10 @@ const routes = [
       {
         path: 'tab6',
         component: () => import('@/views/addPOI.vue')
+      },
+      {
+        path: 'tab7',
+        component: () => import('@/views/RewardScreen.vue')
       }
     ]
   }

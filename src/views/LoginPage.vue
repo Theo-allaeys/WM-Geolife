@@ -21,7 +21,7 @@
 
 <script setup>
 import { ref, inject } from 'vue';
-import { useIonRouter } from '@ionic/vue';
+import { useIonRouter, toastController } from '@ionic/vue';
 import { useLoginStore } from '../stores/loginstore';
 const axios = inject('axios')
 const Username = ref(''), Password = ref('');
@@ -42,6 +42,7 @@ const getvak = () => {
       }
       if (response.data.data.length == 0) {
         console.log('response.data.data is not ok');
+        presentToast('bottom');
         return;
       } else {
         console.log(response.data.data[0])
@@ -51,6 +52,16 @@ const getvak = () => {
       }
     });
 };
+
+async function presentToast(position) {
+    const toast = await toastController.create({
+      message: 'wrong identifiers',
+      duration: 1500,
+      position: position
+    });
+
+    await toast.present();
+  }
 </script>
   
 <style>
@@ -65,8 +76,7 @@ const getvak = () => {
 .Inputs {
   margin-left: auto;
   margin-right: auto;
-  max-width: 30%;
-
+  max-width: 70%;
 }
 
 .input {

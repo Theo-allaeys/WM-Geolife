@@ -8,8 +8,8 @@
       </div>
 
       <div class="Buttons">
-        <ion-button class="button" strong="true" color="medium" href="/tabs/tab1">login</ion-button>
-        <ion-button class="button" strong="true" color="medium" href="/tabs/tab3">register</ion-button>
+        <ion-button class="button" strong="true" color="medium" href="/tabs/tab4">login</ion-button>
+        <ion-button class="button" strong="true" color="medium" href="/tabs/tab8">register</ion-button>
       </div>
 </div>
     </ion-content>
