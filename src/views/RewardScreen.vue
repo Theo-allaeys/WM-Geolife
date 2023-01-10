@@ -7,8 +7,8 @@
           <ion-title>GeoLife</ion-title>
         </div>
         <div class="points"> 
-          <ion-label id="userPoint23">87</ion-label>
-          <ion-label id="maxPoint">/100</ion-label>
+          <ion-label id="userScore">0</ion-label>
+          <ion-label id="maxPoint">%</ion-label>
         </div>
         <div id="buttons">
           <ion-button color="light">Menu</ion-button>
@@ -21,7 +21,6 @@
 <script>
 import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
-
 export default defineComponent({
     data() {
     return {
@@ -30,6 +29,31 @@ export default defineComponent({
     };
   }
 }); 
+
+</script>
+
+<script setup>
+import {onIonViewDidEnter} from '@ionic/vue';
+// import { Scorestore } from '../stores/loginstore';
+// const scorestore = Scorestore();
+
+function slowCount(end) {
+
+  
+  let time = 0.0008 * (100 - end);
+    for (let i = 0; i <= end; i++) {
+        setTimeout(() => {
+          document.getElementById("userScore").innerHTML = i;
+        },  i * i * i * time);
+    }
+}
+
+onIonViewDidEnter(() => {
+  setTimeout(function() { slowCount(50) }, 100); 
+})
+
+//document.getElementById("userScore").innerHTML = 45;
+console.clear();
 </script>
 
 <style>

@@ -4,7 +4,7 @@
       <div class="background_image">
       <div class="test">
         <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
-        <ion-title>GeoLife</ion-title>
+      <ion-title>GeoLife</ion-title>
       </div>
       <div class="test2">
         <ion-button class="button" :class="store.theme" href="/tabs/tab3">Solo</ion-button>

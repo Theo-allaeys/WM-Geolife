@@ -13,7 +13,7 @@
                         <ion-radio style="--color-checked: white; --color: white" value="darkRed"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #c51162; opacity: 1">
+                    <ion-item style="--background: #c51162; opacity: 1">
                         <ion-label>Pink</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="darkPink"
@@ -24,13 +24,13 @@
                         <ion-radio style="--color-checked: white; --color: white" value="darkPurple"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #6200ea; opacity: 1">
+                    <ion-item style="--background: #6200ea; opacity: 1">
                         <ion-label>Deep Purple</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="darkDarkPurple"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #304ffe; opacity: 1">
+                    <ion-item style="--background: #304ffe; opacity: 1">
                         <ion-label>Indigo</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="darkIndigo"
@@ -41,25 +41,25 @@
                         <ion-radio style="--color-checked: white; --color: white" value="darkBlue"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #0091ea; opacity: 1">
+                    <ion-item style="--background: #0091ea; opacity: 1">
                         <ion-label>Light Blue</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="darkLightBlue"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #00b8d4; color: black; opacity: 1">
+                    <ion-item style="--background: #00b8d4; color: black; opacity: 1">
                         <ion-label>Cyan</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: black; --color: black" value="darkCyan"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #00bfa5; color: black; opacity: 1">
+                    <ion-item style="--background: #00bfa5; color: black; opacity: 1">
                         <ion-label>Teal</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: black; --color: black" value="darkTeal"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #00c853; opacity: 1">
+                    <ion-item style="--background: #00c853; opacity: 1">
                         <ion-label>Green</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: black; --color: black" value="darkGreen"
@@ -70,31 +70,31 @@
                         <ion-radio style="--color-checked: black; --color: black" value="darkLightGreen"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #aeea00; color: black; opacity: 1">
+                    <ion-item style="--background: #aeea00; color: black; opacity: 1">
                         <ion-label>Lime</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: black; --color: black" value="darkLime"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #ffd600; color: black; opacity: 1">
+                    <ion-item style="--background: #ffd600; color: black; opacity: 1">
                         <ion-label>Yellow</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: black; --color: black" value="darkYellow"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #ffab00; color: black; opacity: 1">
+                    <ion-item style="--background: #ffab00; color: black; opacity: 1">
                         <ion-label>Amber</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: black; --color: black" value="darkAmber"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #ff6d00; color: black; opacity: 1">
+                    <ion-item style="--background: #ff6d00; color: black; opacity: 1">
                         <ion-label>Orange</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: black; --color: black" value="darkOrange"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled style="--background: #dd2c00; opacity: 1">
+                    <ion-item style="--background: #dd2c00; opacity: 1">
                         <ion-label>Deep Orange</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="darkDarkOrange"
