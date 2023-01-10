@@ -14,11 +14,8 @@
 </template>
   
 <script setup>
-import { inject } from 'vue'; 
-import {usePhotoGallery} from '@/components/usePhotoGallery'
+import { inject } from 'vue';
 const axios = inject('axios')
-const takephoto = usePhotoGallery();
-takephoto.takePhoto();
 function testfile() {
 let file = document.querySelector('[type=file]').files[0];
 console.log(file)

@@ -27,12 +27,10 @@ import { useIonRouter } from '@ionic/vue';
 import { gameSession } from '../stores/loginstore';
 import { Scorestore } from '../stores/loginstore';
 import { ref, inject } from 'vue';
-import { useIonRouter } from '@ionic/vue';
 const axios = inject('axios')
 const store = gameSession();
 const ionRouter = useIonRouter();
 const scorestore = Scorestore();
-const ionRouter = useIonRouter();
 let InitialDistance = "";
 let sec = 60;
 let timeGame = store.$state.time[0] - 1;
