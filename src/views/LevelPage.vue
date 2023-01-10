@@ -1,4 +1,4 @@
-<template>
+                                                                                                                                                                                                                                                    <template>
     <div :class="store.theme">
         <ion-page>
             <ion-content :fullscreen="true">
@@ -13,13 +13,8 @@
                         <ion-radio style="--color-checked: white; --color: white" value="roseRaisin"
                             slot="end"></ion-radio>
                     </ion-item>
-<<<<<<< Updated upstream
-                    <ion-item style="--background: #c51162; opacity: 1">
-                        <ion-label>Pink</ion-label>
-=======
                     <ion-item style="--background: #077b8a; opacity: 1">
                         <ion-label>jadeViolet</ion-label>
->>>>>>> Stashed changes
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="jadeViolet"
                             slot="end"></ion-radio>
@@ -29,24 +24,14 @@
                         <ion-radio style="--color-checked: white; --color: white" value="yellowMagenta"
                             slot="end"></ion-radio>
                     </ion-item>
-<<<<<<< Updated upstream
-                    <ion-item style="--background: #6200ea; opacity: 1">
-                        <ion-label>Deep Purple</ion-label>
-=======
                     <ion-item style="--background: #039fbe; opacity: 1">
                         <ion-label>turquoiseBrick</ion-label>
->>>>>>> Stashed changes
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="turquoiseBrick"
                             slot="end"></ion-radio>
                     </ion-item>
-<<<<<<< Updated upstream
-                    <ion-item style="--background: #304ffe; opacity: 1">
-                        <ion-label>Indigo</ion-label>
-=======
                     <ion-item style="--background: #322514; opacity: 1">
                         <ion-label>roseMarron</ion-label>
->>>>>>> Stashed changes
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="roseMarron"
                             slot="end"></ion-radio>
@@ -56,11 +41,7 @@
                         <ion-radio style="--color-checked: white; --color: white" value="indigomarron"
                             slot="end"></ion-radio>
                     </ion-item>
-<<<<<<< Updated upstream
-                    <ion-item style="--background: #0091ea; opacity: 1">
-=======
                     <!-- <ion-item disabled style="--background: #0091ea; opacity: 1">
->>>>>>> Stashed changes
                         <ion-label>Light Blue</ion-label>
                         <ion-label slot="end">(Pro Color)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="darkLightBlue"
