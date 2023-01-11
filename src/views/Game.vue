@@ -177,10 +177,6 @@ function EndGame() {
     Distance = Math.round(getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000);
   });
   let timeleft = 0;
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
   switch (storesession.$state.time[0]) {
     case 15: timeleft = 900; break;
     case 30: timeleft = 1800; break;
@@ -191,10 +187,6 @@ function EndGame() {
     case 105: timeleft = 6300; break;
     case 120: timeleft = 7200; break;
   }
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
   function calculateScore(time_used, distance_ratio, time_max) {
     console.log(Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio)))
     return Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio));

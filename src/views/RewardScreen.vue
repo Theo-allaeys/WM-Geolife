@@ -37,11 +37,6 @@ export default defineComponent({
 import { onIonViewDidEnter } from '@ionic/vue';
 import { Scorestore } from '../stores/loginstore';
 const scorestore = Scorestore();
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
 
 function slowCount(end) {
 
