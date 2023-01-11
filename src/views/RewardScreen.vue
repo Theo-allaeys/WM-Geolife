@@ -35,8 +35,10 @@ export default defineComponent({
 
 <script setup>
 import { onIonViewDidEnter } from '@ionic/vue';
-// import { Scorestore } from '../stores/loginstore';
-// const scorestore = Scorestore();
+import { Scorestore } from '../stores/loginstore';
+const scorestore = Scorestore();
+
+
 
 function slowCount(end) {
 
@@ -50,7 +52,7 @@ function slowCount(end) {
 }
 
 onIonViewDidEnter(() => {
-  setTimeout(function () { slowCount(50) }, 100);
+  setTimeout(function () { slowCount(scorestore.score) }, 100);
 })
 
 console.clear();

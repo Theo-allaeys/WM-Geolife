@@ -29,7 +29,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import { useIonRouter } from '@ionic/vue';
 import { gameSession } from '../stores/loginstore';
 import { Scorestore } from '../stores/loginstore';
-import { ref, inject } from 'vue';
+import { ref, inject} from 'vue';
 const axios = inject('axios')
 const storesession = gameSession();
 const ionRouter = useIonRouter();
@@ -177,45 +177,22 @@ function EndGame() {
     Distance = Math.round(getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000);
   });
   let timeleft = 0;
-  let totalpoints
   switch (storesession.$state.time[0]) {
-    case 15: timeleft = (timesec / 900) * 100; break;
-    case 30: timeleft = (timesec / 1800) * 100; break;
-    case 45: timeleft = (timesec / 2700) * 100; break;
-    case 60: timeleft = (timesec / 3600) * 100; break;
-    case 75: timeleft = (timesec / 4500) * 100; break;
-    case 90: timeleft = (timesec / 5400) * 100; break;
-    case 105: timeleft = (timesec / 6300) * 100; break;
-    case 120: timeleft = (timesec / 7200) * 100; break;
+    case 15: timeleft = 900; break;
+    case 30: timeleft = 1800; break;
+    case 45: timeleft = 2700; break;
+    case 60: timeleft = 3600; break;
+    case 75: timeleft = 4500; break;
+    case 90: timeleft = 5400; break;
+    case 105: timeleft = 6300; break;
+    case 120: timeleft = 7200; break;
   }
-  if (timeleft >= 50) {
-    totalpoints = 50;
-  } else {
-    totalpoints = Math.round(timeleft);
-  }
-  if (Distance <= 10) {
-    totalpoints += 50;
-  }
-  else if (Distance <= 20) {
-    totalpoints += 95 / 2;
-  }
-  else if (Distance <= 50) {
-    totalpoints += 90 / 2;
-  }
-  else if (Distance <= 100) {
-    totalpoints += 80 / 2;
-  }
-  else if (Distance <= 200) {
-    totalpoints += 70 / 2;
-  }
-  else if (Distance <= 500) {
-    totalpoints += 50;
-  }
-  else if (Distance >= 1000) {
-    totalpoints = 0;
-  }
-  console.log(totalpoints);
-  scorestore.addscore(totalpoints);
+
+  function calculateScore(time_used, distance_ratio, time_max) {
+    console.log(Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio)))
+    return Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio));
+}
+  scorestore.addscore(calculateScore(timeleft, Distance/InitialDistance, timesec));
   ionRouter.push('/tabs/tab7');
 }
 
@@ -225,6 +202,7 @@ getallPOI();
 <script>
 import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
+//import { distance } from 'ol/coordinate';
 
 export default defineComponent({
   data() {
