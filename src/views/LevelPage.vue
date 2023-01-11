@@ -45,6 +45,42 @@
                         <ion-radio style="--color-checked: white; --color: white" value="indigomarron"
                             slot="end"></ion-radio>
                     </ion-item>
+                    <ion-item disabled id="color7" style="--background: #ffa781">
+                        <ion-label>lotus</ion-label>
+                        <ion-label slot="end">(Voyager)</ion-label>
+                        <ion-radio style="--color-checked: white; --color: white" value="lotus"
+                            slot="end"></ion-radio>
+                    </ion-item>
+                    <ion-item disabled id="color8" style="--background: #5c1e61">
+                        <ion-label>bordeauxRose</ion-label>
+                        <ion-label slot="end">(Voyager)</ion-label>
+                        <ion-radio style="--color-checked: white; --color: white" value="bordeauxRose"
+                            slot="end"></ion-radio>
+                    </ion-item>
+                    <ion-item disabled id="color9" style="--background: #408ec6">
+                        <ion-label>brazilSubzero</ion-label>
+                        <ion-label slot="end">(Voyager)</ion-label>
+                        <ion-radio style="--color-checked: white; --color: white" value="brazilSubzero"
+                            slot="end"></ion-radio>
+                    </ion-item>
+                    <ion-item disabled id="color10" style="--background: #ff1f1f">
+                        <ion-label>rougeNoir</ion-label>
+                        <ion-label slot="end">(Voyager)</ion-label>
+                        <ion-radio style="--color-checked: white; --color: white" value="rougeNoir"
+                            slot="end"></ion-radio>
+                    </ion-item>
+                    <ion-item disabled id="color11" style="--background: #000000">
+                        <ion-label>black</ion-label>
+                        <ion-label slot="end">(Voyager)</ion-label>
+                        <ion-radio style="--color-checked: white; --color: white" value="black"
+                            slot="end"></ion-radio>
+                    </ion-item>
+                    <ion-item disabled id="color12" style="--background: #00d9ff">
+                        <ion-label>blueSun</ion-label>
+                        <ion-label slot="end">(Voyager)</ion-label>
+                        <ion-radio style="--color-checked: white; --color: white" value="blueSun"
+                            slot="end"></ion-radio>
+                    </ion-item>
                 </ion-radio-group>
                 <ion-card>
                     <ion-toolbar>
@@ -55,6 +91,7 @@
                                 <ion-label>Save</ion-label></ion-segment-button></ion-segment>
                     </ion-toolbar>
                 </ion-card>
+                <ion-progress-bar :value="progress"></ion-progress-bar>
             </ion-content>
         </ion-page>
     </div>
@@ -63,18 +100,47 @@
 
 <script setup>
 import { LevelStore } from '../stores/loginstore';
+import { ref } from 'vue';
 const levels = LevelStore();
-setTimeout(function() { 
+let progress = ref(0);
+setTimeout(function () {
     if (loggedinstore.loggedin == "null") {
-    //rien de grave
-    console.log('pas ok')
-} else {
-    console.log(loggedinstore.loggedin)
-    lvlverifier(loggedinstore.exp);
+        //rien de grave
+        console.log('pas ok')
+    } else {
+        console.log(loggedinstore.loggedin)
+        lvlverifier(loggedinstore.exp);
+
+    }
+}, 500);
+
+
+setInterval(() => {
+
+    if (progress.value >= lvlcounter(loggedinstore.exp)) {
+setTimeout(() => {
+            progress.value = lvlcounter(loggedinstore.exp);
+          }, 30000);
+    }else {
+        progress.value += 0.01;
+    }
+}, 90);
+
+
+function lvlcounter(xp) {
+
+    if (xp >= levels.levels[7][2]) {
+        return 1;
+    } else {
+        for (let index = 0; index < levels.levels.length - 1; index++) {
+            let nexlvl = index + 1
+            if (xp >= levels.levels[index][2] && xp < levels.levels[nexlvl][2]) {
+               return (xp / levels.levels[nexlvl][2]) ;
+            }
+        }
+    }
 
 }
- }, 500);
-
 
 
 function lvlverifier(xp) {
@@ -82,12 +148,14 @@ function lvlverifier(xp) {
 
     if (xp >= levels.levels[7][2]) {
         //progress bar max
-        console.log(' ');
+        for (let index = 0; index <= 12; index++) {
+            document.getElementById("color" + index).disabled = false;
+        }
     } else if (xp < 2500) {
         //unable to see this
         console.log(' ');
     } else {
-        for (let index = 0; index < levels.levels.length; index++) {
+        for (let index = 0; index < levels.levels.length * 2; index++) {
 
             if (xp >= levels.levels[index][2]) {
                 document.getElementById("color" + index).disabled = false;

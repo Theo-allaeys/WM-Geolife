@@ -29,7 +29,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import { useIonRouter } from '@ionic/vue';
 import { gameSession } from '../stores/loginstore';
 import { Scorestore } from '../stores/loginstore';
-import { ref, inject} from 'vue';
+import { ref, inject } from 'vue';
 const axios = inject('axios')
 const storesession = gameSession();
 const ionRouter = useIonRouter();
@@ -37,6 +37,7 @@ const scorestore = Scorestore();
 let InitialDistance = "";
 let sec = 60;
 let timeGame = storesession.$state.time[0] - 1;
+let Distance;
 
 const coordUser = ref({ latitude: storesession.$state.lat[0], longitude: storesession.$state.lon[0] });
 const selectedPOI = ref({ id: null, latitude: null, longitude: null, namePoi: null, photo: null })
@@ -53,6 +54,7 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c; // Distance in km
   console.log(d)
+  Distance = Math.round(d * 1000);
   return d;
 }
 function deg2rad(deg) {
@@ -102,7 +104,7 @@ function startGame() {
     if (timeGame < 0) {
       lblTime.textContent = " 00:00 ";
     }
-  }, 500);
+  }, 1000);
 }
 
 
@@ -172,10 +174,11 @@ const getallPOI = () => {
 
 function EndGame() {
   let timesec = hmsToSecondsOnly(document.getElementById("lblTime2").textContent);
-  let Distance = 0;
   Geolocation.getCurrentPosition().then((coordinates) => {
-    Distance = Math.round(getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000);
+    getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude);
   });
+  console.log("check distance " + Distance);
+
   let timeleft = 0;
   switch (storesession.$state.time[0]) {
     case 15: timeleft = 900; break;
@@ -190,8 +193,8 @@ function EndGame() {
   function calculateScore(time_used, distance_ratio, time_max) {
     console.log(Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio)))
     return Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio));
-}
-  scorestore.addscore(calculateScore(timeleft, Distance/InitialDistance, timesec));
+  }
+  scorestore.addscore(calculateScore((timeleft - timesec), (InitialDistance - Distance) / InitialDistance, timeleft));
   ionRouter.push('/tabs/tab7');
 }
 

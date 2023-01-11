@@ -22,22 +22,28 @@
 <script>
 import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
+import { loggedinstore } from "@/stores/userstore"
+
 export default defineComponent({
   data() {
     return {
       theme: localStorage.getItem("themeSet"),
       store,
+      loggedinstore,
+      loggedin: localStorage.getItem("loggedinuser"),
+      pseudo: localStorage.getItem("pseudo"),
+      exp: localStorage.getItem("experience")
     };
   }
-});
-
+}); 
 </script>
 
 <script setup>
 import { onIonViewDidEnter } from '@ionic/vue';
 import { Scorestore } from '../stores/loginstore';
+import { inject } from 'vue';
 const scorestore = Scorestore();
-
+const axios = inject('axios')
 function slowCount(end) {
 
 
@@ -51,9 +57,23 @@ function slowCount(end) {
 
 onIonViewDidEnter(() => {
   setTimeout(function () { slowCount(scorestore.score) }, 100);
+  setxp()
 })
 
-console.clear();
+const setxp = () => {
+  axios
+    .post('https://theoallaeys2021.be/web&mobile/taak1/api/setxp.php', {
+      xp: scorestore.score * 50,
+      id: loggedinstore.loggedin
+    })
+    .then(response => {
+      // controleer de response
+      if (response.status !== 200) {
+        // er is iets fout gegaan, doe iets met deze info
+        console.log(response.status);
+      }
+    });
+};
 </script>
 
 <style>
