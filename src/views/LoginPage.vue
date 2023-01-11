@@ -15,7 +15,7 @@
           <ion-input class="input" placeholder="Password" v-model="Password" required="true"></ion-input>
         </div>
         <div class="Buttons">
-          <ion-button :class="store.theme" @click="getvak()">Bevestig</ion-button>
+          <ion-button :class="store.theme" @click="getvak()">confirm</ion-button>
         </div>
       </div>
     </ion-content>

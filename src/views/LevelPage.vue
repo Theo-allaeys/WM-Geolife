@@ -34,13 +34,13 @@
                             slot="end"></ion-radio>
                     </ion-item>
                     <ion-item disabled id="color5" style="--background: #322514;">
-                        <ion-label>roseMarron</ion-label>
+                        <ion-label>rose</ion-label>
                         <ion-label slot="end">(Explorer)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="roseMarron"
                             slot="end"></ion-radio>
                     </ion-item>
                     <ion-item disabled id="color6" style="--background: #408ec6">
-                        <ion-label>indigomarron</ion-label>
+                        <ion-label>indigo</ion-label>
                         <ion-label slot="end">(Voyager)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="indigomarron"
                             slot="end"></ion-radio>
@@ -64,7 +64,7 @@
                             slot="end"></ion-radio>
                     </ion-item>
                     <ion-item disabled id="color10" style="--background: #ff1f1f">
-                        <ion-label>rougeNoir</ion-label>
+                        <ion-label>Redblack</ion-label>
                         <ion-label slot="end">(Voyager)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="rougeNoir"
                             slot="end"></ion-radio>
