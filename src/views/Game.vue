@@ -1,19 +1,22 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true" transparent>
+      <div :class="store.theme"></div>
       <div class="background_image">
         <div id="div__time">
-          <ion-label :class="store.theme" id="lblTime2"></ion-label>
-          <ion-label :class="store.theme" id="lblDistance">0 M</ion-label>
+          <div id="themesetter" :class="store.theme"></div>
+          <ion-label id="lblTime2"></ion-label>
+          <div id="themesetter" :class="store.theme"></div>
+          <ion-label id="lblDistance">0 M</ion-label>
         </div>
         <div class="head">
           <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
           <ion-label>GeoLife</ion-label>
         </div>
-          <div id="game">
-          </div>
+        <div id="game">
+        </div>
         <div id="div__btn">
-        <ion-button :class="store.theme" id="btn__end" strong="true" @click="EndGame()">End Game</ion-button>
+          <ion-button :class="store.theme" id="btn__end" strong="true" @click="EndGame()">End Game</ion-button>
         </div>
       </div>
     </ion-content>
@@ -125,7 +128,7 @@ const getPOIfromid = (selectedid) => {
         selectedPOI.value.longitude = response.data.data[0].longitude;
         selectedPOI.value.namePoi = response.data.data[0].name;
         selectedPOI.value.photo = response.data.data[0].photo;
-        document.getElementById("game").style.backgroundImage = "url(" + selectedPOI.value.photo +")";
+        document.getElementById("game").style.backgroundImage = "url(" + selectedPOI.value.photo + ")";
         InitialDistance = getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000;
         document.getElementById("lblDistance").textContent = Math.round(InitialDistance) + " M";
         console.log(InitialDistance)
@@ -153,15 +156,15 @@ const getallPOI = () => {
             selectablePOI.push(response.data.data[i].id);
           }
         }
-        if (selectablePOI.length == 0){
+        if (selectablePOI.length == 0) {
           document.getElementById('game').innerHTML = '<div id="noPOI"><ion-label>no points are currently available in your selected area. you will be redirected back to the game lobby in 5 seconds</ion-label></div>';
-          setTimeout(function() { ionRouter.push('/tabs/tab3') }, 5000);
-          
-        }else{
+          setTimeout(function () { ionRouter.push('/tabs/tab3') }, 5000);
+
+        } else {
           console.log(selectablePOI)
-        let rndInt = Math.floor(Math.random() * selectablePOI.length + 1);
-        console.log(rndInt)
-        getPOIfromid(rndInt);
+          let rndInt = Math.floor(Math.random() * selectablePOI.length + 1);
+          console.log(rndInt)
+          getPOIfromid(rndInt);
         }
       }
     });
@@ -190,30 +193,30 @@ function EndGame() {
   } else {
     totalpoints = Math.round(timeleft);
   }
-if(Distance <= 10){
-  totalpoints += 50;
-}
-else if(Distance <= 20){
-  totalpoints += 95/2;
-}
-else if(Distance <= 50){
-  totalpoints += 90/2;
-}
-else if(Distance <= 100){
-  totalpoints += 80/2;
-}
-else if(Distance <= 200){
-  totalpoints += 70/2;
-}
-else if(Distance <= 500){
-  totalpoints += 50;
-}
-else if(Distance >= 1000){
-  totalpoints = 0;
-}
-console.log(totalpoints);
-scorestore.addscore(totalpoints);
-ionRouter.push('/tabs/tab7');
+  if (Distance <= 10) {
+    totalpoints += 50;
+  }
+  else if (Distance <= 20) {
+    totalpoints += 95 / 2;
+  }
+  else if (Distance <= 50) {
+    totalpoints += 90 / 2;
+  }
+  else if (Distance <= 100) {
+    totalpoints += 80 / 2;
+  }
+  else if (Distance <= 200) {
+    totalpoints += 70 / 2;
+  }
+  else if (Distance <= 500) {
+    totalpoints += 50;
+  }
+  else if (Distance >= 1000) {
+    totalpoints = 0;
+  }
+  console.log(totalpoints);
+  scorestore.addscore(totalpoints);
+  ionRouter.push('/tabs/tab7');
 }
 
 getallPOI();
@@ -224,16 +227,19 @@ import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-    data() {
+  data() {
     return {
-    theme: localStorage.getItem("themeSet"),
-    store,
+      theme: localStorage.getItem("themeSet"),
+      store,
     };
   }
 }); 
 </script>
 
 <style>
+#themesetter {
+  display: none;
+}
 
 #noPOI {
   margin-left: auto;
@@ -316,19 +322,10 @@ ion-title {
   font-size: 20px;
 }
 
-
-
 #div__time {
-  
+
   display: flex;
   justify-content: space-between;
-}
-
-
-
-.background_image {
-  background: url('../../public/assets/img/background.png') no-repeat center/cover fixed;
-  height: 100%;
 }
 
 .logo {

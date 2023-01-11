@@ -1,17 +1,18 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
+      <div :class="store.theme"></div>
       <div class="background_image">
-      <div class="head">
-        <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
-        <ion-title>GeoLife</ion-title>
-      </div>
+        <div class="head">
+          <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
+          <ion-title>GeoLife</ion-title>
+        </div>
 
-      <div class="Buttons">
-        <ion-button class="button" strong="true" :class="store.theme" href="/tabs/tab4">login</ion-button>
-        <ion-button class="button" strong="true" :class="store.theme" href="/tabs/tab8">register</ion-button>
+        <div class="Buttons">
+          <ion-button class="button" strong="true" :class="store.theme" href="/tabs/tab4">login</ion-button>
+          <ion-button class="button" strong="true" :class="store.theme" href="/tabs/tab8">register</ion-button>
+        </div>
       </div>
-</div>
     </ion-content>
   </ion-page>
 </template>
@@ -21,17 +22,16 @@ import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-    data() {
+  data() {
     return {
-    theme: localStorage.getItem("themeSet"),
-    store,
+      theme: localStorage.getItem("themeSet"),
+      store,
     };
   }
 }); 
 </script>
 
 <style>
-
 .head {
   display: flex;
   align-content: center;
@@ -55,21 +55,14 @@ ion-title {
   max-height: 80%;
 }
 
-.background_image{
-  background: url('../../public/assets/img/background.png') no-repeat center/cover fixed;
-  width: 100%;
-  height: 100%;
-}
-
-.button{
+.button {
   width: 14rem;
   height: 3rem;
   margin-top: 1rem;
   --border-radius: 25px;
 }
 
-.logo{
-max-width: 200px;
+.logo {
+  max-width: 200px;
 }
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="slider">
+  <div class="slider">
     <ion-range :class="store.theme" @ionChange="onIonChange" :ticks="true" :snaps="true" :min="1" :max="10" :pin="true"
       :pin-formatter="pinFormatter"></ion-range>
   </div>
@@ -59,17 +59,17 @@ export default {
   },
   methods: {
     onIonChange({ detail }) {
-        console.log(detail.value);
-        this.radius = detail.value;
-        document.getElementById('map').innerHTML = null;
-        storeradius.addradius(detail.value);
-        this.myMap();
-      },
+      console.log(detail.value);
+      this.radius = detail.value;
+      document.getElementById('map').innerHTML = null;
+      storeradius.addradius(detail.value);
+      this.myMap();
+    },
 
     myMap() {
       useGeographic();
       this.mainMap = new Map({
-        interaction:null,
+        interaction: null,
         layers: [
           new TileLayer({
             source: new OSM(),

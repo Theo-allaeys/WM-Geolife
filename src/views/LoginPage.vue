@@ -1,6 +1,7 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
+      <div :class="store.theme"></div>
       <div class="background_image">
         <div class="head">
           <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
@@ -8,7 +9,9 @@
         </div>
 
         <div class="Inputs">
+          <div :class="store.theme"></div>
           <ion-input class="input" placeholder="Username" v-model="Username" required="true"></ion-input>
+          <div :class="store.theme"></div>
           <ion-input class="input" placeholder="Password" v-model="Password" required="true"></ion-input>
         </div>
         <div class="Buttons">
@@ -46,22 +49,22 @@ const getvak = () => {
         return;
       } else {
         console.log(response.data.data[0])
-        storegame.addProduct(response.data.data[0].id);
-        console.log(storegame.$state.id)
+        storegame.adduser(response.data.data[0].id, response.data.data[0].pseudo, response.data.data[0].xp);
+        console.log(storegame.$state)
         ionRouter.push('/tabs/tab1');
       }
     });
 };
 
 async function presentToast(position) {
-    const toast = await toastController.create({
-      message: 'wrong identifiers',
-      duration: 1500,
-      position: position
-    });
+  const toast = await toastController.create({
+    message: 'wrong identifiers',
+    duration: 1500,
+    position: position
+  });
 
-    await toast.present();
-  }
+  await toast.present();
+}
 </script>
 
 <script>
@@ -69,10 +72,10 @@ import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-    data() {
+  data() {
     return {
-    theme: localStorage.getItem("themeSet"),
-    store,
+      theme: localStorage.getItem("themeSet"),
+      store,
     };
   }
 }); 
@@ -116,14 +119,7 @@ ion-title {
   font-size: 3rem;
 }
 
-.background_image {
-  background: url('../../public/assets/img/background.png') no-repeat center/cover fixed;
-  width: 100%;
-  height: 100%;
-}
-
 .logo {
   max-width: 200px;
 }
 </style>
-  

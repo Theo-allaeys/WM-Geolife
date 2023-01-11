@@ -1,6 +1,7 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true" transparent>
+      <div :class="store.theme"></div>
       <div class="background_image">
         <div class="head">
           <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
@@ -63,10 +64,10 @@ import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-    data() {
+  data() {
     return {
-    theme: localStorage.getItem("themeSet"),
-    store,
+      theme: localStorage.getItem("themeSet"),
+      store,
     };
   }
 }); 
@@ -88,13 +89,6 @@ ion-title {
   flex-flow: column;
   color: #ffffff;
 }
-
-.background_image {
-  background: url('../../public/assets/img/background.png') no-repeat center/cover fixed;
-  width: 100%;
-  height: 100%;
-}
-
 
 .button {
   width: 250px;
@@ -131,10 +125,9 @@ ion-title {
 
 ion-label {
   font-size: 2rem;
-  color:#ffffff;
+  color: #ffffff;
   font-weight: 700;
   font-style: italic;
   margin-right: 12px;
 }
-
 </style>
