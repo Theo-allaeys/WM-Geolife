@@ -7,12 +7,12 @@
           <ion-img class="logo" src="../../assets/img/logo1024trans.png"></ion-img>
           <ion-title>GeoLife</ion-title>
         </div>
-        <ion-label class="lblwelcome">welcome {{ storegame.pseudo.toString() }}</ion-label>
+        <ion-label class="lblwelcome">welcome {{ loggedinstore.pseudo.toString() }}</ion-label>
         <div class="test">
           <ion-button class="button" :class="store.theme" href="/tabs/tab3">Solo</ion-button>
           <ion-button disabled class="button" :class="store.theme" href="#">Multiplayer </ion-button>
           <ion-button id="reward" class="button" :class="store.theme" href="/tabs/tab8">Rewards </ion-button>
-          <ion-button class="button" :class="store.theme" href="/tabs/tab4">disconnect </ion-button>
+          <ion-button class="button" :class="store.theme" @click="setlogger()">disconnect </ion-button>
         </div>
       </div>
     </ion-content>
@@ -20,18 +20,25 @@
 </template>
 
 <script setup>
-import { useLoginStore } from '../stores/loginstore';
 import { LevelStore } from '../stores/loginstore';
 import { toastController } from '@ionic/vue';
 import { onIonViewDidEnter } from '@ionic/vue';
-const storegame = useLoginStore();
+import { useIonRouter } from '@ionic/vue';
+const router = useIonRouter();
 const levels = LevelStore();
 onIonViewDidEnter(() => {
-  lvlverifier(storegame.xp);
+  if (loggedinstore.loggedin == "null") {
+    router.push('/tabs/tab2');
+  }else {
+    console.log(loggedinstore.loggedin)
+    lvlverifier(loggedinstore.exp);
+  }
+
+  
 });
 
 function lvlverifier(xp) {
-  console.log(levels.levels)
+
 
   if (xp >= levels.levels[7][2]) {
     presentToast("you are " + levels.levels[7][1] + "(level " + levels.levels[7][0] + ")");
@@ -61,18 +68,32 @@ async function presentToast(message) {
   await toast.present();
 }
 
+const setlogger = () => {
+  // @ts-ignore: Object is possibly 'null'.
+  localStorage.setItem("loggedinuser", null);
+  localStorage.setItem("pseudo", null);
+  localStorage.setItem("experience", null);
+  loggedinstore.setItem();
+router.push('/tabs/tab4')
+console.log(loggedinstore.loggedin)
+}
 
 </script>
 
 <script>
 import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
+import { loggedinstore } from "@/stores/userstore"
 
 export default defineComponent({
   data() {
     return {
       theme: localStorage.getItem("themeSet"),
       store,
+      loggedinstore,
+      loggedin: localStorage.getItem("loggedinuser"),
+      pseudo: localStorage.getItem("pseudo"),
+      exp: localStorage.getItem("experience")
     };
   }
 }); 

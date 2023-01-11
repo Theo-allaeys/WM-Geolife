@@ -76,7 +76,7 @@ export default {
           }),
           new VectorLayer({
             source: new VectorSource({
-              features: [new Feature({ geometry: new Circle(this.initialCoordinates, 0.0071 * this.radius) }), new Feature(new Point(this.initialCoordinates))],
+              features: [new Feature({ geometry: new Circle(this.initialCoordinates, 0.0142 * this.radius) }), new Feature(new Point(this.initialCoordinates))],
             }),
           }),
         ],

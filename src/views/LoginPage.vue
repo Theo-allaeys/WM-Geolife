@@ -26,10 +26,21 @@
 import { ref, inject } from 'vue';
 import { useIonRouter, toastController } from '@ionic/vue';
 import { useLoginStore } from '../stores/loginstore';
+import { store } from "@/theme/theme";
+import { loggedinstore } from "@/stores/userstore"
 const axios = inject('axios')
 const Username = ref(''), Password = ref('');
 const storegame = useLoginStore()
 const ionRouter = useIonRouter();
+
+const setlogger = () => {
+  // @ts-ignore: Object is possibly 'null'.
+  localStorage.setItem("loggedinuser", storegame.id);
+  localStorage.setItem("pseudo", storegame.pseudo);
+  localStorage.setItem("experience", storegame.xp);
+  loggedinstore.setItem();
+
+}
 
 const getvak = () => {
   axios
@@ -52,6 +63,7 @@ const getvak = () => {
         storegame.adduser(response.data.data[0].id, response.data.data[0].pseudo, response.data.data[0].xp);
         console.log(storegame.$state)
         ionRouter.push('/tabs/tab1');
+        setlogger();
       }
     });
 };
@@ -68,7 +80,7 @@ async function presentToast(position) {
 </script>
 
 <script>
-import { store } from "@/theme/theme";
+
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -76,6 +88,10 @@ export default defineComponent({
     return {
       theme: localStorage.getItem("themeSet"),
       store,
+      loggedinstore,
+      loggedin: localStorage.getItem("loggedinuser"),
+      pseudo: localStorage.getItem("pseudo"),
+      exp: localStorage.getItem("experience")
     };
   }
 }); 

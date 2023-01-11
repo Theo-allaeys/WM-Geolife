@@ -12,8 +12,8 @@
           <ion-label id="maxPoint">%</ion-label>
         </div>
         <div id="buttons">
-          <ion-button color="light">Menu</ion-button>
-          <ion-button :class="store.theme">Play again</ion-button>
+          <ion-button :class="store.theme" @click="$router.push({ path: '/tabs/tab1' })" >Menu</ion-button>
+          <ion-button :class="store.theme" @click="$router.push({ path: '/tabs/tab3' })">Play again</ion-button>
         </div>
       </div>
     </ion-content>
@@ -37,8 +37,11 @@ export default defineComponent({
 import { onIonViewDidEnter } from '@ionic/vue';
 import { Scorestore } from '../stores/loginstore';
 const scorestore = Scorestore();
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 
 function slowCount(end) {
 

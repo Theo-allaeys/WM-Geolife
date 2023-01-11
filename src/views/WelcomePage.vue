@@ -21,14 +21,30 @@
 import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
 
+import { loggedinstore } from "@/stores/userstore"
+
+
 export default defineComponent({
   data() {
     return {
       theme: localStorage.getItem("themeSet"),
       store,
+      loggedinstore,
+      loggedin: localStorage.getItem("loggedinuser"),
+      pseudo: localStorage.getItem("pseudo"),
+      exp: localStorage.getItem("experience"),
     };
   }
 }); 
+</script>
+
+<script setup>
+import { useIonRouter } from '@ionic/vue';
+const router = useIonRouter();
+console.log(loggedinstore.loggedin,loggedinstore.pseudo,loggedinstore.exp)
+if (loggedinstore.loggedin.length > 0) {
+  router.push('/tabs/tab1');
+}
 </script>
 
 <style>
