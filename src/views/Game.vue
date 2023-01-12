@@ -53,7 +53,6 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c; // Distance in km
-  console.log(d)
   Distance = Math.round(d * 1000);
   return d;
 }
@@ -133,7 +132,7 @@ const getPOIfromid = (selectedid) => {
         document.getElementById("game").style.backgroundImage = "url(" + selectedPOI.value.photo + ")";
         InitialDistance = getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000;
         document.getElementById("lblDistance").textContent = Math.round(InitialDistance) + " M";
-        console.log(InitialDistance)
+        console.log("initialdistance " + InitialDistance)
         startGame();
       }
     });
@@ -154,7 +153,7 @@ const getallPOI = () => {
       } else {
         let selectablePOI = [];
         for (let i = 0, end = response.data.data.length; i < end; i++) {
-          if (getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, response.data.data[i].latitude, response.data.data[i].longitude) <= storesession.radius) {
+          if (Math.round(getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, response.data.data[i].latitude, response.data.data[i].longitude)) <= storesession.radius) {
             selectablePOI.push(response.data.data[i].id);
           }
         }
@@ -164,9 +163,9 @@ const getallPOI = () => {
 
         } else {
           console.log(selectablePOI)
-          let rndInt = Math.floor(Math.random() * selectablePOI.length + 1);
-          console.log(rndInt)
-          getPOIfromid(rndInt);
+          let rndInt = Math.floor(Math.random() * selectablePOI.length);
+          console.log(selectablePOI[rndInt])
+          getPOIfromid(selectablePOI[rndInt]);
         }
       }
     });
