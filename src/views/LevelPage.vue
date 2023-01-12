@@ -3,84 +3,96 @@
         <ion-page>
             <ion-content :fullscreen="true">
                 <ion-radio-group v-model="theme">
-                    <ion-item disabled id="color0" style="--background: #173030">
+                    <ion-item id="0" style="--background: #173030">
                         <ion-label>default</ion-label>
                         <ion-label slot="end">(Beginner)</ion-label>
                         <ion-radio style="--color-checked: white; --color: white" value="default"
                             slot="end"></ion-radio>
                     </ion-item>
-                    <ion-item disabled id="color1" style="--background: #e52165">
-                        <ion-label>roseRaisin</ion-label>
-                        <ion-label slot="end">(Wayfarer)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="roseRaisin"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color2" style="--background: #077b8a;">
-                        <ion-label>jadeViolet</ion-label>
-                        <ion-label slot="end">(Traveler)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="jadeViolet"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color3" style="--background: #e2d810;">
-                        <ion-label>yellowMagenta</ion-label>
-                        <ion-label slot="end">(Rookie Adventurer)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="yellowMagenta"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color4" style="--background: #039fbe;">
-                        <ion-label>turquoiseBrick</ion-label>
-                        <ion-label slot="end">(Pathfinder)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="turquoiseBrick"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color5" style="--background: #322514;">
-                        <ion-label>rose</ion-label>
-                        <ion-label slot="end">(Explorer)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="roseMarron"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color6" style="--background: #408ec6">
-                        <ion-label>indigo</ion-label>
-                        <ion-label slot="end">(Voyager)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="indigomarron"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color7" style="--background: #ffa781">
-                        <ion-label>lotus</ion-label>
-                        <ion-label slot="end">(Voyager)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="lotus"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color8" style="--background: #5c1e61">
-                        <ion-label>bordeauxRose</ion-label>
-                        <ion-label slot="end">(Voyager)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="bordeauxRose"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color9" style="--background: #408ec6">
-                        <ion-label>brazilSubzero</ion-label>
-                        <ion-label slot="end">(Voyager)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="brazilSubzero"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color10" style="--background: #ff1f1f">
-                        <ion-label>Redblack</ion-label>
-                        <ion-label slot="end">(Voyager)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="rougeNoir"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color11" style="--background: #000000">
-                        <ion-label>black</ion-label>
-                        <ion-label slot="end">(Voyager)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="black"
-                            slot="end"></ion-radio>
-                    </ion-item>
-                    <ion-item disabled id="color12" style="--background: #00d9ff">
-                        <ion-label>blueSun</ion-label>
-                        <ion-label slot="end">(Voyager)</ion-label>
-                        <ion-radio style="--color-checked: white; --color: white" value="blueSun"
-                            slot="end"></ion-radio>
-                    </ion-item>
+                    <div id="1">
+                        <ion-item disabled style="--background: #e52165">
+                            <ion-label>roseRaisin</ion-label>
+                            <ion-label slot="end">(Wayfarer)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="roseRaisin"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                        <ion-item disabled style="--background: #077b8a;">
+                            <ion-label>jadeViolet</ion-label>
+                            <ion-label slot="end">(Traveler)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="jadeViolet"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                    </div>
+                    <div id="2">
+                        <ion-item disabled style="--background: #e2d810;">
+                            <ion-label>yellowMagenta</ion-label>
+                            <ion-label slot="end">(Rookie Adventurer)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="yellowMagenta"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                        <ion-item disabled style="--background: #039fbe;">
+                            <ion-label>turquoiseBrick</ion-label>
+                            <ion-label slot="end">(Pathfinder)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="turquoiseBrick"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                    </div>
+                    <div id="3">
+                        <ion-item disabled style="--background: #322514;">
+                            <ion-label>rose</ion-label>
+                            <ion-label slot="end">(Explorer)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="roseMarron"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                        <ion-item disabled style="--background: #408ec6">
+                            <ion-label>indigo</ion-label>
+                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="indigomarron"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                    </div>
+                    <div id="4">
+                        <ion-item disabled style="--background: #ffa781">
+                            <ion-label>lotus</ion-label>
+                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="lotus"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                        <ion-item disabled style="--background: #5c1e61">
+                            <ion-label>bordeauxRose</ion-label>
+                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="bordeauxRose"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                    </div>
+                    <div id="5">
+                        <ion-item disabled style="--background: #408ec6">
+                            <ion-label>brazilSubzero</ion-label>
+                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="brazilSubzero"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                        <ion-item disabled style="--background: #ff1f1f">
+                            <ion-label>Redblack</ion-label>
+                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="rougeNoir"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                    </div>
+                    <div id="6">
+                        <ion-item disabled style="--background: #000000">
+                            <ion-label>black</ion-label>
+                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="black"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                        <ion-item disabled style="--background: #00d9ff">
+                            <ion-label>blueSun</ion-label>
+                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-radio style="--color-checked: white; --color: white" value="blueSun"
+                                slot="end"></ion-radio>
+                        </ion-item>
+                    </div>
                 </ion-radio-group>
                 <ion-card>
                     <ion-toolbar>
@@ -118,10 +130,10 @@ setTimeout(function () {
 setInterval(() => {
 
     if (progress.value >= lvlcounter(loggedinstore.exp)) {
-setTimeout(() => {
+        setTimeout(() => {
             progress.value = lvlcounter(loggedinstore.exp);
-          }, 30000);
-    }else {
+        }, 30000);
+    } else {
         progress.value += 0.01;
     }
 }, 90);
@@ -135,12 +147,13 @@ function lvlcounter(xp) {
         for (let index = 0; index < levels.levels.length - 1; index++) {
             let nexlvl = index + 1
             if (xp >= levels.levels[index][2] && xp < levels.levels[nexlvl][2]) {
-               return (xp / levels.levels[nexlvl][2]) ;
+                return (xp / levels.levels[nexlvl][2]);
             }
         }
     }
 
 }
+console.log(levels.levels)
 
 
 function lvlverifier(xp) {
@@ -148,17 +161,21 @@ function lvlverifier(xp) {
 
     if (xp >= levels.levels[7][2]) {
         //progress bar max
-        for (let index = 0; index <= 12; index++) {
-            document.getElementById("color" + index).disabled = false;
+        for (let index = 0; index <= 6; index++) {
+            document.getElementById(index).childNodes[0].disabled = false;
+            document.getElementById(index).childNodes[1].disabled = false;
+            console.log(index)
         }
     } else if (xp < 2500) {
         //unable to see this
         console.log(' ');
     } else {
-        for (let index = 0; index < levels.levels.length * 2; index++) {
+        for (let index = 0; index < levels.levels.length; index++) {
 
             if (xp >= levels.levels[index][2]) {
-                document.getElementById("color" + index).disabled = false;
+                document.getElementById(index).childNodes[0].disabled = false;
+                document.getElementById(index).childNodes[1].disabled = false;
+                console.log(index)
             }
 
         }
