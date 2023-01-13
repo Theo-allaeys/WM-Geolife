@@ -88,7 +88,7 @@ export const LevelStore = defineStore('level', {
         [0, "a beginner", 0],
         [1, "a Wayfarer", 2500],
         [2, "a Traveler", 5000],
-        [3, "a Rookie Adventurer", 10000],
+        [3, "an Adventurer", 10000],
         [4, "a Pathfinder", 20000],
         [5, "an Explorer", 30000],
         [6, "a Voyager", 40000],

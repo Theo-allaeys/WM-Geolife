@@ -18,7 +18,7 @@
                         </ion-item>
                         <ion-item disabled style="--background: #077b8a;">
                             <ion-label>jadeViolet</ion-label>
-                            <ion-label slot="end">(Traveler)</ion-label>
+                            <ion-label slot="end">(Wayfarer)</ion-label>
                             <ion-radio style="--color-checked: white; --color: white" value="jadeViolet"
                                 slot="end"></ion-radio>
                         </ion-item>
@@ -26,13 +26,13 @@
                     <div id="2">
                         <ion-item disabled style="--background: #e2d810;">
                             <ion-label>yellowMagenta</ion-label>
-                            <ion-label slot="end">(Rookie Adventurer)</ion-label>
+                            <ion-label slot="end">(Traveler)</ion-label>
                             <ion-radio style="--color-checked: white; --color: white" value="yellowMagenta"
                                 slot="end"></ion-radio>
                         </ion-item>
                         <ion-item disabled style="--background: #039fbe;">
                             <ion-label>turquoiseBrick</ion-label>
-                            <ion-label slot="end">(Pathfinder)</ion-label>
+                            <ion-label slot="end">(Traveler)</ion-label>
                             <ion-radio style="--color-checked: white; --color: white" value="turquoiseBrick"
                                 slot="end"></ion-radio>
                         </ion-item>
@@ -40,13 +40,13 @@
                     <div id="3">
                         <ion-item disabled style="--background: #322514;">
                             <ion-label>rose</ion-label>
-                            <ion-label slot="end">(Explorer)</ion-label>
+                            <ion-label slot="end">(Adventurer)</ion-label>
                             <ion-radio style="--color-checked: white; --color: white" value="roseMarron"
                                 slot="end"></ion-radio>
                         </ion-item>
                         <ion-item disabled style="--background: #408ec6">
                             <ion-label>indigo</ion-label>
-                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-label slot="end">(Adventurer)</ion-label>
                             <ion-radio style="--color-checked: white; --color: white" value="indigomarron"
                                 slot="end"></ion-radio>
                         </ion-item>
@@ -54,13 +54,13 @@
                     <div id="4">
                         <ion-item disabled style="--background: #ffa781">
                             <ion-label>lotus</ion-label>
-                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-label slot="end">(Pathfinder)</ion-label>
                             <ion-radio style="--color-checked: white; --color: white" value="lotus"
                                 slot="end"></ion-radio>
                         </ion-item>
                         <ion-item disabled style="--background: #5c1e61">
                             <ion-label>bordeauxRose</ion-label>
-                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-label slot="end">(Pathfinder)</ion-label>
                             <ion-radio style="--color-checked: white; --color: white" value="bordeauxRose"
                                 slot="end"></ion-radio>
                         </ion-item>
@@ -68,13 +68,13 @@
                     <div id="5">
                         <ion-item disabled style="--background: #408ec6">
                             <ion-label>brazilSubzero</ion-label>
-                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-label slot="end">(Explorer)</ion-label>
                             <ion-radio style="--color-checked: white; --color: white" value="brazilSubzero"
                                 slot="end"></ion-radio>
                         </ion-item>
                         <ion-item disabled style="--background: #ff1f1f">
                             <ion-label>Redblack</ion-label>
-                            <ion-label slot="end">(Voyager)</ion-label>
+                            <ion-label slot="end">(Explorer)</ion-label>
                             <ion-radio style="--color-checked: white; --color: white" value="rougeNoir"
                                 slot="end"></ion-radio>
                         </ion-item>

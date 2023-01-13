@@ -36,6 +36,20 @@ export default defineComponent({
 }); 
 </script>
 
+<script setup>
+import { useIonRouter } from '@ionic/vue';
+const ionRouter = useIonRouter();
+if (store.theme == null || store.theme == "null") {
+  localStorage.setItem("themeSet","default")
+  store.setItem();
+}
+if (loggedinstore.loggedin == null || loggedinstore.loggedin == "null") {
+console.log("not logged in")
+}else {
+  ionRouter.push("/tabs/tab1")
+}
+</script>
+
 <style>
 .head {
   display: flex;

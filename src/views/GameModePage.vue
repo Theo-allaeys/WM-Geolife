@@ -22,12 +22,12 @@
 <script setup>
 import { LevelStore } from '../stores/loginstore';
 import { toastController } from '@ionic/vue';
-import { onIonViewDidEnter } from '@ionic/vue';
 import { useIonRouter } from '@ionic/vue';
 const router = useIonRouter();
 const levels = LevelStore();
-onIonViewDidEnter(() => {
-  if (loggedinstore.loggedin == "null") {
+
+
+  if (loggedinstore.loggedin == "null" || loggedinstore.loggedin == null) {
     router.push('/tabs/tab2');
   }else {
     console.log(loggedinstore.loggedin)
@@ -35,7 +35,7 @@ onIonViewDidEnter(() => {
   }
 
   
-});
+
 
 function lvlverifier(xp) {
 
