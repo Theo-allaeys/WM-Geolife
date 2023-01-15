@@ -23,18 +23,42 @@
 import { LevelStore } from '../stores/loginstore';
 import { toastController } from '@ionic/vue';
 import { useIonRouter } from '@ionic/vue';
+import { inject } from 'vue';
 const router = useIonRouter();
 const levels = LevelStore();
+const axios = inject('axios')
 
 
-  if (loggedinstore.loggedin == "null" || loggedinstore.loggedin == null) {
-    router.push('/tabs/tab2');
-  }else {
-    console.log(loggedinstore.loggedin)
-    lvlverifier(loggedinstore.exp);
-  }
+const xpverifier = (id) => {
+  axios
+    .post('https://theoallaeys2021.be/web&mobile/taak1/api/getxp.php', {
+      sqlid: id
+    })
+    .then(response => {
+      // controleer de response
+      if (response.status !== 200) {
+        // er is iets fout gegaan, doe iets met deze info
+        console.log(response.status);
+      }
+      if (response.data.data.length == 0) {
+        console.log(response.data.data[0])
+        console.log('response.data.data is not ok');
+        return;
+      } else {
+        lvlverifier(response.data.data[0].xp);
+        localStorage.setItem("experience", response.data.data[0].xp);
+        loggedinstore.setItem();
+      }
+    });
+};
 
-  
+if (loggedinstore.loggedin == "null" || loggedinstore.loggedin == null) {
+  router.push('/tabs/tab2');
+} else {
+  xpverifier(loggedinstore.loggedin)
+}
+
+
 
 
 function lvlverifier(xp) {
@@ -44,7 +68,6 @@ function lvlverifier(xp) {
     presentToast("you are " + levels.levels[7][1] + "(level " + levels.levels[7][0] + ")");
   } else if (xp < 2500) {
     presentToast("you are a beginner (level 0) and " + (levels.levels[1][2] - xp + " xp away from being a Wayfarer"))
-    document.getElementById("reward").disabled = true;
   } else {
     for (let index = 0; index < levels.levels.length; index++) {
       let nexlvl = index + 1
@@ -61,8 +84,15 @@ function lvlverifier(xp) {
 async function presentToast(message) {
   const toast = await toastController.create({
     message: message,
-    duration: 999999999,
+    duration: 30000,
     position: 'bottom',
+    cssClass: store.theme,
+    buttons: [
+      {
+        text: 'Dismiss',
+        role: 'cancel',
+      }
+    ]
   });
 
   await toast.present();
@@ -74,8 +104,8 @@ const setlogger = () => {
   localStorage.setItem("pseudo", null);
   localStorage.setItem("experience", null);
   loggedinstore.setItem();
-router.push('/tabs/tab4')
-console.log(loggedinstore.loggedin)
+  router.push('/tabs/tab4')
+  console.log(loggedinstore.loggedin)
 }
 
 </script>
@@ -103,6 +133,12 @@ ion-toast {
   --background: #121212;
   --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
   --color: #ffffff;
+  font-size: 15px;
+}
+
+ion-toast::part(button) {
+  border-left: 1px solid #d2d2d2;
+  color: #ffffff;
   font-size: 15px;
 }
 

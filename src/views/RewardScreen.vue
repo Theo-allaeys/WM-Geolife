@@ -12,7 +12,7 @@
           <ion-label id="maxPoint">%</ion-label>
         </div>
         <div id="buttons">
-          <ion-button :class="store.theme" @click="$router.push({ path: '/tabs/tab1' })" >Menu</ion-button>
+          <ion-button :class="store.theme" @click="$router.push({ path: '/tabs/tab1' })">Menu</ion-button>
           <ion-button :class="store.theme" @click="$router.push({ path: '/tabs/tab3' })">Play again</ion-button>
         </div>
       </div>
@@ -44,8 +44,9 @@ import { Scorestore } from '../stores/loginstore';
 import { inject } from 'vue';
 const scorestore = Scorestore();
 const axios = inject('axios')
-function slowCount(end) {
 
+
+function slowCount(end) {
 
   let time = 0.0008 * (100 - end);
   for (let i = 0; i <= end; i++) {
@@ -53,17 +54,18 @@ function slowCount(end) {
       document.getElementById("userScore").innerHTML = i;
     }, i * i * i * time);
   }
+  setxp()
 }
 
 onIonViewDidEnter(() => {
   setTimeout(function () { slowCount(scorestore.score) }, 100);
-  setxp()
+
 })
 
 const setxp = () => {
   axios
     .post('https://theoallaeys2021.be/web&mobile/taak1/api/setxp.php', {
-      xp: scorestore.score * 50,
+      xp: (loggedinstore.exp + (scorestore.score * 50)),
       id: loggedinstore.loggedin
     })
     .then(response => {
@@ -71,6 +73,9 @@ const setxp = () => {
       if (response.status !== 200) {
         // er is iets fout gegaan, doe iets met deze info
         console.log(response.status);
+      } else {
+        localStorage.setItem("experience", loggedinstore.exp + (scorestore.score * 50))
+        loggedinstore.setItem();
       }
     });
 };

@@ -1,23 +1,5 @@
 import { defineStore } from 'pinia'
 
-export const useLoginStore = defineStore('Login', {
-  state: () => ({
-    id: [],
-    pseudo: [],
-    xp: []
-  }),
-  actions: {
-    adduser(id, pseudo, xp) {
-      this.id = [];
-      this.id.push(id);
-      this.pseudo = [];
-      this.pseudo.push(pseudo);
-      this.xp = [];
-      this.xp.push(xp);
-    }
-  }
-})
-
 export const gameSession = defineStore('game', {
   state: () => ({
     sessionID: [],

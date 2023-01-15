@@ -12,7 +12,7 @@
           <div :class="store.theme"></div>
           <ion-input class="input" placeholder="Username" v-model="Username" required="true"></ion-input>
           <div :class="store.theme"></div>
-          <ion-input class="input" placeholder="Password" v-model="Password" required="true"></ion-input>
+          <ion-input type="password" class="input" placeholder="Password" v-model="Password" required="true"></ion-input>
         </div>
         <div class="Buttons">
           <ion-button :class="store.theme" @click="getvak()">confirm</ion-button>
@@ -25,21 +25,18 @@
 <script setup>
 import { ref, inject } from 'vue';
 import { useIonRouter, toastController } from '@ionic/vue';
-import { useLoginStore } from '../stores/loginstore';
 import { store } from "@/theme/theme";
 import { loggedinstore } from "@/stores/userstore"
 const axios = inject('axios')
 const Username = ref(''), Password = ref('');
-const storegame = useLoginStore()
 const ionRouter = useIonRouter();
 
-const setlogger = () => {
+const setlogger = (id, name, xp) => {
   // @ts-ignore: Object is possibly 'null'.
-  localStorage.setItem("loggedinuser", storegame.id);
-  localStorage.setItem("pseudo", storegame.pseudo);
-  localStorage.setItem("experience", storegame.xp);
+  localStorage.setItem("loggedinuser", id);
+  localStorage.setItem("pseudo", name);
+  localStorage.setItem("experience", xp);
   loggedinstore.setItem();
-
 }
 
 const getvak = () => {
@@ -59,11 +56,8 @@ const getvak = () => {
         presentToast('bottom');
         return;
       } else {
-        console.log(response.data.data[0])
-        storegame.adduser(response.data.data[0].id, response.data.data[0].pseudo, response.data.data[0].xp);
-        console.log(storegame.$state)
+        setlogger(response.data.data[0].id, response.data.data[0].pseudo, response.data.data[0].xp);
         ionRouter.push('/tabs/tab1');
-        setlogger();
       }
     });
 };
