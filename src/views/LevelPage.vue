@@ -120,7 +120,7 @@
                     </ion-toolbar>
                 </ion-card>
                 <div class="progresslabel">
-                    <Ion-label>{{ Math.round(levels.levels[lvlverifier2(loggedinstore.exp)][2] * progress) }}
+                    <Ion-label>{{ Math.round(levels.levels[lvlverifier2(loggedinstore.exp)][2] * progress) * 2 }}
                         xp</Ion-label>
                     <Ion-label> / {{ levels.levels[nextlvl()][2] }} xp</Ion-label>
                 </div>

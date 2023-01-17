@@ -63,9 +63,13 @@ onIonViewDidEnter(() => {
 })
 
 const setxp = () => {
+  let totalxp = loggedinstore.exp + (scorestore.score * 50);
+  if (totalxp < 0) {
+    totalxp = 0;
+  }
   axios
     .post('https://theoallaeys2021.be/web&mobile/taak1/api/setxp.php', {
-      xp: (loggedinstore.exp + (scorestore.score * 50)),
+      xp: totalxp,
       id: loggedinstore.loggedin
     })
     .then(response => {
@@ -74,7 +78,7 @@ const setxp = () => {
         // er is iets fout gegaan, doe iets met deze info
         console.log(response.status);
       } else {
-        localStorage.setItem("experience", loggedinstore.exp + (scorestore.score * 50))
+        localStorage.setItem("experience", totalxp)
         loggedinstore.setItem();
       }
     });
