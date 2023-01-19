@@ -59,17 +59,17 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
 }
-function hmsToSecondsOnly(str) {
-  var p = str.split(':'),
-    s = 0, m = 1;
+// function hmsToSecondsOnly(str) {
+//   var p = str.split(':'),
+//     s = 0, m = 1;
 
-  while (p.length > 0) {
-    s += m * parseInt(p.pop(), 10);
-    m *= 60;
-  }
-  console.log(s)
-  return s;
-}
+//   while (p.length > 0) {
+//     s += m * parseInt(p.pop(), 10);
+//     m *= 60;
+//   }
+//   console.log(s)
+//   return s;
+// }
 
 
 function checkDistance() {
@@ -172,28 +172,28 @@ const getallPOI = () => {
 }
 
 function EndGame() {
-  let timesec = hmsToSecondsOnly(document.getElementById("lblTime2").textContent);
+  //let timesec = hmsToSecondsOnly(document.getElementById("lblTime2").textContent);
   Geolocation.getCurrentPosition().then((coordinates) => {
     getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude);
   });
   console.log("check distance " + Distance);
 
-  let timeleft = 0;
-  switch (storesession.$state.time[0]) {
-    case 15: timeleft = 900; break;
-    case 30: timeleft = 1800; break;
-    case 45: timeleft = 2700; break;
-    case 60: timeleft = 3600; break;
-    case 75: timeleft = 4500; break;
-    case 90: timeleft = 5400; break;
-    case 105: timeleft = 6300; break;
-    case 120: timeleft = 7200; break;
-  }
+  //let timeleft = 0;
+  // switch (storesession.$state.time[0]) {
+  //   case 15: timeleft = 900; break;
+  //   case 30: timeleft = 1800; break;
+  //   case 45: timeleft = 2700; break;
+  //   case 60: timeleft = 3600; break;
+  //   case 75: timeleft = 4500; break;
+  //   case 90: timeleft = 5400; break;
+  //   case 105: timeleft = 6300; break;
+  //   case 120: timeleft = 7200; break;
+  // }
   function calculateScore(time_used, distance_ratio, time_max) {
     console.log(Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio)))
     return Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio));
   }
-  scorestore.addscore(calculateScore((timeleft - timesec), (InitialDistance - Distance) / InitialDistance, timeleft));
+  scorestore.addscore(calculateScore(1000, 1353/ 1400, 1800));
   ionRouter.push('/tabs/tab7');
 }
 

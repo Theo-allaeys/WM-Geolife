@@ -150,6 +150,12 @@ http://ionicframework.com/docs/theming/ */
   height: 100%;
 }
 
+.default+ion-col {
+  border: solid 1px #ff7300;
+  color: #ff7300;
+  background-color: #173030;
+}
+
 //color1
 .roseRaisin {
   --ion-color-primary: #e52165;
@@ -180,6 +186,12 @@ http://ionicframework.com/docs/theming/ */
   background: url('../../public/assets/img/bgrose.png') no-repeat center/cover fixed;
   width: 100%;
   height: 100%;
+}
+
+.roseRaisin+ion-col {
+  border: solid 1px #0d1137;
+  color: #0d1137;
+  background-color: #e52165;
 }
 
 //color2
@@ -214,6 +226,12 @@ http://ionicframework.com/docs/theming/ */
   height: 100%;
 }
 
+.jadeViolet+ion-col {
+  border: solid 1px #5c3c92;
+  color: #5c3c92;
+  background-color: #077b8a;
+}
+
 //color3
 .yellowMagenta {
   --ion-color-primary: #e2d810;
@@ -244,6 +262,12 @@ http://ionicframework.com/docs/theming/ */
   background: url('../../public/assets/img/e2d810.png') no-repeat center/cover fixed;
   width: 100%;
   height: 100%;
+}
+
+.roseRaisin+ion-col {
+  border: solid 1px #d9138a;
+  color: #d9138a;
+  background-color: #e2d810;
 }
 
 //color4
@@ -278,6 +302,12 @@ http://ionicframework.com/docs/theming/ */
   height: 100%;
 }
 
+.turquoiseBrick+ion-col {
+  border: solid 1px #b20238;
+  color: #b20238;
+  background-color: #039fbe;
+}
+
 //color5
 .roseMarron {
   --ion-color-primary: #322514;
@@ -310,6 +340,12 @@ http://ionicframework.com/docs/theming/ */
   height: 100%;
 }
 
+.roseMarron+ion-col {
+  border: solid 1px #e75874;
+  color: #e75874;
+  background-color: #322514;
+}
+
 //color6
 .indigomarron {
   --ion-color-primary: #408ec6;
@@ -335,6 +371,12 @@ http://ionicframework.com/docs/theming/ */
 .indigomarron+.input {
   background-color: #7a2048;
   color: #408ec6;
+}
+
+.indigomarron+ion-col {
+  border: solid 1px #7a2048;
+  color: #7a2048;
+  background-color: #408ec6;
 }
 
 .indigomarron+.background_image {
@@ -375,6 +417,12 @@ http://ionicframework.com/docs/theming/ */
   height: 100%;
 }
 
+.lotus+ion-col {
+  border: solid 1px #5b0e2d;
+  color: #5b0e2d;
+  background-color: #ffa781;
+}
+
 //color8
 .bordeauxRose {
   --ion-color-primary: #5c1e61;
@@ -405,6 +453,12 @@ http://ionicframework.com/docs/theming/ */
   background: url('../../public/assets/img/bordeauxRose.jpg') no-repeat center/cover fixed;
   width: 100%;
   height: 100%;
+}
+
+.bordeauxRose+ion-col {
+  border: solid 1px #c6a25e;
+  color: #c6a25e;
+  background-color: #5c1e61;
 }
 
 //color9
@@ -439,6 +493,12 @@ http://ionicframework.com/docs/theming/ */
   height: 100%;
 }
 
+.brazilSubzero+ion-col {
+  border: solid 1px #ffd500;
+  color: #ffd500;
+  background-color: #00ff5e;
+}
+
 //color10
 .rougeNoir {
   --ion-color-primary: #ff1f1f;
@@ -469,6 +529,12 @@ http://ionicframework.com/docs/theming/ */
   background: url('../../public/assets/img/Red.jpeg') no-repeat center/cover fixed;
   width: 100%;
   height: 100%;
+}
+
+.rougeNoir+ion-col {
+  border: solid 1px #775858;
+  color: #775858;
+  background-color: #ff1f1f;
 }
 
 //black lives matter
@@ -503,6 +569,12 @@ http://ionicframework.com/docs/theming/ */
   height: 100%;
 }
 
+.black+ion-col {
+  border: solid 1px #ffffff;
+  color: #ffffff;
+  background-color: #000000;
+}
+
 //collor12
 .blueSun {
   --ion-color-primary: #00d9ff;
@@ -533,5 +605,11 @@ http://ionicframework.com/docs/theming/ */
   background: url('../../public/assets/img/blueSun.jpg') no-repeat center/cover fixed;
   width: 100%;
   height: 100%;
+}
+
+.blueSun+ion-col {
+  border: solid 1px #f25125;
+  color: #f25125;
+  background-color: #00d9ff;
 }
 

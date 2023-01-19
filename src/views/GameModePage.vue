@@ -10,7 +10,7 @@
         <ion-label class="lblwelcome">welcome {{ loggedinstore.pseudo.toString() }}</ion-label>
         <div class="test">
           <ion-button class="button" :class="store.theme" href="/tabs/tab3">Solo</ion-button>
-          <ion-button disabled class="button" :class="store.theme" href="#">Multiplayer </ion-button>
+          <ion-button class="button" :class="store.theme" @click="$router.push({ path: '/tabs/tab9' })">Multiplayer</ion-button>
           <ion-button id="reward" class="button" :class="store.theme" href="/tabs/tab8">Rewards </ion-button>
           <ion-button class="button" :class="store.theme" @click="setlogger()">disconnect </ion-button>
         </div>

@@ -45,6 +45,10 @@ const routes = [
       {
         path: 'tab8',
         component: () => import('@/views/LevelPage.vue')
+      },
+      {
+        path: 'tab9',
+        component: () => import('@/views/multyGameLobby.vue')
       }
     ]
   }
