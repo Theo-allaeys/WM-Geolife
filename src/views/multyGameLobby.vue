@@ -15,7 +15,7 @@
           <ion-label id="lblTime">15 MIN</ion-label>
           <ion-button class="btnTime" @click="timeP()" :class="store.theme" strong="true">+</ion-button>
           <ion-button class="btnTime" @click="timeM()" :class="store.theme" strong="true">-</ion-button>
-          <ion-button class="btnTimeS" :class="store.theme" strong="true" @click="start()">Start</ion-button>
+          <ion-button class="btnTimeS" id="btnTimeStart" :class="store.theme" strong="true" @click="start()">Start</ion-button>
         </div>
         <ion-grid>
             <ion-row>
@@ -60,7 +60,7 @@ import MapDiv from '@/components/Map'
 // const storeGeo = geolocalisation();
 // const storegame = gameSession();
 // import {writeUserData, getAllOnValueFromDB, getAllOnceFromDB} from "@/components/firebase"
-import {writeUserData, getAllOnceFromDB} from "@/components/firebase"
+import {writeUserData, getAllOnceFromDB, getAllOnValueFromDB} from "@/components/firebase"
 let aantalSpelers = 0;
 let time = 15;
 //let sessionid = 9999;
@@ -128,6 +128,8 @@ function alertId() {
 <script>
 import { store } from "@/theme/theme";
 import { defineComponent } from "vue";
+import { alertController } from '@ionic/vue';
+let aantalSpelers2 = 0;
 
 export default defineComponent({
   data() {
@@ -138,9 +140,39 @@ export default defineComponent({
   }
 }); 
 
+function addPlayer2(name) {
+    if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
+      console.log("You are already here !!!");
+    }
+    else {
+        switch (aantalSpelers2) {
+        case 0:
+            document.getElementById("player1").textContent = name;
+            aantalSpelers2 = 1;
+            break;
+        case 1:
+            document.getElementById("player2").textContent = name;
+            aantalSpelers2 = 2;
+            break;
+        case 2:
+            document.getElementById("player3").textContent = name;
+            aantalSpelers2 = 3;
+            break;
+        case 3:
+            document.getElementById("player4").textContent = name;
+            aantalSpelers2 = 4;
+            break;
+        default:
+            console.log("Too many players");
+            break;
+    }
+    }
+}
+
 const joinSession = async () => {
   let number = document.getElementById("inpJoin").value;
   let listUsers = [[]];
+  //let listSessionUsers = [];
   let aantalInSession = 0;
   const reg = /^\d{8}$/;
   if (reg.test(number)) {
@@ -154,19 +186,40 @@ const joinSession = async () => {
           aantalInSession++;
         }
       });
-      if (aantalInSession == 0) {console.log("This session does not exist");}
-      if (aantalInSession >= 4) {console.log("This session is already full");}
+      listUsers = [[]];
+      if (aantalInSession == 0) {FullAlert("This session does not exist");}
+      if (aantalInSession >= 4) {FullAlert("This session is already full");}
       if (aantalInSession >= 1 && aantalInSession < 4) {
-         writeUserData(localStorage.getItem("pseudo"),number, false);
+        writeUserData(localStorage.getItem("pseudo"),parseInt(number, 10), false);
+         document.getElementById("btnTimeStart").disabled = true;
+         const data2 = getAllOnValueFromDB("/users");
+         data2.then(function(result) {
+          for (var key in result) {
+            listUsers.push([key, result[key]["leader"], result[key]["score"], result[key]["session"], result[key]["time"]]);
+          }
+          listUsers.forEach(e => {
+            if (e[3] == number) {
+              addPlayer2(e[0]);
+            }
+          });
+         })
       }
   
     })
   } 
   else {
-    console.log("The number does not have 8 digits.");
+    FullAlert("A sessionid contains 8 numbers");
   }
 }
 
+const FullAlert = async (message) => {
+  const alert = await alertController.create({
+    header: 'Alert',
+    subHeader: message,
+    buttons: ['OK'],
+    });
+  await alert.present();
+};
 </script>
 
 <style>

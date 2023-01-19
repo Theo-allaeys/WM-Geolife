@@ -27,7 +27,6 @@ export async function getAllOnceFromDB(path) {
     data = await get(dref);
   }
   else {
-    console.log(path)
     const dref = ref(db,path)
     data = await get(dref);
   }
@@ -38,22 +37,26 @@ export async function getAllOnceFromDB(path) {
 
 //  Neemt data iedere keer er een verandering is.
 export function getAllOnValueFromDB(path) {
-  const db = getDatabase(app);
-  if (path == "none") {
-    const dref = ref(db,'/')
-    onValue(dref, (snapshot) => {
-      const data = snapshot.val();
-      return data;
-    });
-  }
-  else {
-    const dref = ref(db, path)
-    onValue(dref, (snapshot) => {
-      const data = snapshot.val();
-      return data;
-    });
-  }
+  return new Promise((resolve) => {
+    const db = getDatabase(app);
+    let data;
+    if (path == "none") {
+      const dref = ref(db,'/')
+      onValue(dref, (snapshot) => {
+        data = snapshot.val();
+        resolve(data);
+      });
+    }
+    else {
+      const dref = ref(db,path)
+      onValue(dref, (snapshot) => {
+        data = snapshot.val();
+        resolve(data);
+      });
+    }
+  });
 }
+
 
 export function writeUserData(pseudo, sessionid, leaderTF) {
   const db = getDatabase();
