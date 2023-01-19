@@ -140,17 +140,26 @@ export default defineComponent({
 
 const joinSession = async () => {
   let number = document.getElementById("inpJoin").value;
-  let listUsers = [];
+  let listUsers = [[]];
+  let aantalInSession = 0;
   const reg = /^\d{8}$/;
   if (reg.test(number)) {
     const data = getAllOnceFromDB("/users");
     data.then(function(result){
       for (var key in result) {
-        listUsers.push(key);
+        listUsers.push([key, result[key]["leader"], result[key]["score"], result[key]["session"], result[key]["time"]]);
       }
-      for (var x in listUsers) {
-        console.log(x);
+      listUsers.forEach(e => {
+        if (e[3] == number) {
+          aantalInSession++;
+        }
+      });
+      if (aantalInSession == 0) {console.log("This session does not exist");}
+      if (aantalInSession >= 4) {console.log("This session is already full");}
+      if (aantalInSession >= 1 && aantalInSession < 4) {
+         writeUserData(localStorage.getItem("pseudo"),number, false);
       }
+  
     })
   } 
   else {
