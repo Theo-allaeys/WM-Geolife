@@ -270,6 +270,15 @@ const FullAlert = async (message) => {
     });
   await alert.present();
 };
+
+export default defineComponent({
+  data() {
+    return {
+      theme: localStorage.getItem("themeSet"),
+      store,
+    };
+  }
+}); 
 </script>
 
 <style>
