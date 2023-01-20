@@ -1,53 +1,54 @@
 <template>
-    <ion-page>
-      <ion-content :fullscreen="true" transparent>
-        <div :class="store.theme"></div>
-        <div class="background_image">
-            <div class="head">
-                <div class="join">
-                    <div :class="store.theme"></div>
-                    <ion-input class="input" placeholder="session id" id="inpJoin"></ion-input>
-                    <ion-button @click="joinSession()" id="btnJoin" :class="store.theme" strong="true">Join</ion-button>
-                </div>
-            </div>
-          <MapDiv></MapDiv>
-          <div class="time">
+  <ion-page>
+    <ion-content :fullscreen="true" transparent>
+      <div :class="store.theme"></div>
+      <div class="background_image">
+        <div class="head">
+          <div class="join">
+            <div :class="store.theme"></div>
+            <ion-input class="input" placeholder="session id" id="inpJoin"></ion-input>
+            <ion-button @click="joinSession()" id="btnJoin" :class="store.theme" strong="true">Join</ion-button>
+          </div>
+        </div>
+        <MapDiv></MapDiv>
+        <div class="time">
           <ion-label id="lblTime">15 MIN</ion-label>
           <ion-button class="btnTime" @click="timeP()" :class="store.theme" strong="true">+</ion-button>
           <ion-button class="btnTime" @click="timeM()" :class="store.theme" strong="true">-</ion-button>
-          <ion-button class="btnTimeS" id="btnTimeStart" :class="store.theme" strong="true" @click="start()">Start</ion-button>
+          <ion-button class="btnTimeS" id="btnTimeStart" :class="store.theme" strong="true"
+            @click="start()">Start</ion-button>
         </div>
         <ion-grid>
-            <ion-row>
+          <ion-row>
             <div :class="store.theme"></div>
             <ion-col id="player1">empty</ion-col>
-            </ion-row>
+          </ion-row>
         </ion-grid>
         <ion-grid>
-            <ion-row>
+          <ion-row>
             <div :class="store.theme"></div>
             <ion-col id="player2">empty</ion-col>
-            </ion-row>
+          </ion-row>
         </ion-grid>
         <ion-grid>
-            <ion-row>
+          <ion-row>
             <div :class="store.theme"></div>
             <ion-col id="player3">empty</ion-col>
-            </ion-row>
+          </ion-row>
         </ion-grid>
         <ion-grid>
-            <ion-row>
+          <ion-row>
             <div :class="store.theme"></div>
             <ion-col id="player4">empty</ion-col>
-            </ion-row>
+          </ion-row>
         </ion-grid>
         <div class="btn__idsession">
-            <ion-button :class="store.theme" @click="alertId()" id="btn_ownSession">my session id</ion-button>
+          <ion-button :class="store.theme" @click="alertId()" id="btn_ownSession">my session id</ion-button>
         </div>
-        </div>
-      </ion-content>
-    </ion-page>
-  </template>
+      </div>
+    </ion-content>
+  </ion-page>
+</template>
 
 <script setup>
 import MapDiv from '@/components/Map';
@@ -65,32 +66,32 @@ let time = 15;
 let sessionIdStart;
 //let sessionid = 9999;
 function addPlayer(name) {
-    if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
-      console.log("You are already here !!!");
+  if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
+    console.log("You are already here !!!");
+  }
+  else {
+    switch (aantalSpelers) {
+      case 0:
+        document.getElementById("player1").textContent = name;
+        aantalSpelers = 1;
+        break;
+      case 1:
+        document.getElementById("player2").textContent = name;
+        aantalSpelers = 2;
+        break;
+      case 2:
+        document.getElementById("player3").textContent = name;
+        aantalSpelers = 3;
+        break;
+      case 3:
+        document.getElementById("player4").textContent = name;
+        aantalSpelers = 4;
+        break;
+      default:
+        console.log("Too many players");
+        break;
     }
-    else {
-        switch (aantalSpelers) {
-        case 0:
-            document.getElementById("player1").textContent = name;
-            aantalSpelers = 1;
-            break;
-        case 1:
-            document.getElementById("player2").textContent = name;
-            aantalSpelers = 2;
-            break;
-        case 2:
-            document.getElementById("player3").textContent = name;
-            aantalSpelers = 3;
-            break;
-        case 3:
-            document.getElementById("player4").textContent = name;
-            aantalSpelers = 4;
-            break;
-        default:
-            console.log("Too many players");
-            break;
-    }
-    }
+  }
 }
 
 function timeP() {
@@ -177,47 +178,39 @@ import { defineComponent } from "vue";
 import { alertController } from '@ionic/vue';
 let aantalSpelers2 = 0;
 
-export function playerrefresh(data) {
-  let number = document.getElementById("inpJoin").value;
-  writeUserData(localStorage.getItem("pseudo"), parseInt(number, 10), false);
-  document.getElementById("btnTimeStart").disabled = true;
-  let listUsers = [];
-    for (var key in data) {
-      listUsers.push([key, data[key]["leader"], data[key]["score"], data[key]["session"], data[key]["time"]]);
-    }
-    listUsers.forEach(e => {if (e[3] == number) {addPlayer2(e[0]);}
-  });
-}
+export default defineComponent({
+  data() {
+    return {
+      theme: localStorage.getItem("themeSet"),
+      store,
+    };
+  }
+});
 
 function addPlayer2(name) {
-
-  if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
-      console.log("You are already here !!!");
-    }
-    else {
     switch (aantalSpelers2) {
-        case 0:
-            document.getElementById("player1").textContent = name;
-            aantalSpelers2 = 1;
-            break;
-        case 1:
-            document.getElementById("player2").textContent = name;
-            aantalSpelers2 = 2;
-            break;
-        case 2:
-            document.getElementById("player3").textContent = name;
-            aantalSpelers2 = 3;
-            break;
-        case 3:
-            document.getElementById("player4").textContent = name;
-            aantalSpelers2 = 4;
-            break;
-        default:
-            console.log("Too many players");
-            break;
+      case 0:
+        document.getElementById("player1").textContent = name;
+        aantalSpelers2 = 1;
+        break;
+      case 1:
+        document.getElementById("player2").textContent = name;
+        aantalSpelers2 = 2;
+        break;
+      case 2:
+        document.getElementById("player3").textContent = name;
+        aantalSpelers2 = 3;
+        break;
+      case 3:
+        document.getElementById("player4").textContent = name;
+        aantalSpelers2 = 4;
+        break;
+      default:
+        console.log("Too many players");
+        break;
+    }
   }
- }
-}
+
 
 const joinSession = async () => {
   let number = document.getElementById("inpJoin").value;
@@ -227,7 +220,7 @@ const joinSession = async () => {
   const reg = /^\d{8}$/;
   if (reg.test(number)) {
     const data = getAllOnceFromDB("/users");
-    data.then(function(result){
+    data.then(function (result) {
       for (var key in result) {
         listUsers.push([key, result[key]["leader"], result[key]["score"], result[key]["session"], result[key]["time"]]);
       }
@@ -237,13 +230,13 @@ const joinSession = async () => {
         }
       });
       listUsers = [[]];
-      if (aantalInSession == 0) {FullAlert("This session does not exist");}
-      if (aantalInSession >= 4) {FullAlert("This session is already full");}
+      if (aantalInSession == 0) { FullAlert("This session does not exist"); }
+      if (aantalInSession >= 4) { FullAlert("This session is already full"); }
       if (aantalInSession >= 1 && aantalInSession < 4) {
-        writeUserData(localStorage.getItem("pseudo"),parseInt(number, 10), false);
-         document.getElementById("btnTimeStart").disabled = true;
-         const data2 = getAllOnValueFromDB("/users");
-         data2.then(function(result) {
+        writeUserData(localStorage.getItem("pseudo"), parseInt(number, 10), false);
+        document.getElementById("btnTimeStart").disabled = true;
+        const data2 = getAllOnValueFromDB("/users");
+        data2.then(function (result) {
           for (var key in result) {
             listUsers.push([key, result[key]["leader"], result[key]["score"], result[key]["session"], result[key]["time"]]);
           }
@@ -252,11 +245,11 @@ const joinSession = async () => {
               addPlayer2(e[0]);
             }
           });
-         })
+        })
       }
-  
+
     })
-  } 
+  }
   else {
     FullAlert("A sessionid contains 8 numbers");
   }
@@ -267,24 +260,31 @@ const FullAlert = async (message) => {
     header: 'Alert',
     subHeader: message,
     buttons: ['OK'],
-    });
+  });
   await alert.present();
 };
 
-export default defineComponent({
-  data() {
-    return {
-      theme: localStorage.getItem("themeSet"),
-      store,
-    };
-  }
-}); 
+export function playerrefresh(data) {
+  let number = document.getElementById("inpJoin").value;
+  writeUserData(localStorage.getItem("pseudo"), parseInt(number, 10), false);
+  document.getElementById("btnTimeStart").disabled = true;
+  let listUsers = [];
+    for (var key in data) {
+      listUsers.push([key, data[key]["leader"], data[key]["score"], data[key]["session"], data[key]["time"]]);
+    }
+    listUsers.forEach(e => {
+      if (e[3] == number) {
+        addPlayer2(e[0]);
+      }
+    });
+
+}
 </script>
 
 <style>
 .join {
-    display: inline-flex;
-    margin-bottom: -30px;
+  display: inline-flex;
+  margin-bottom: -30px;
 }
 
 #inpJoin {
@@ -295,6 +295,7 @@ export default defineComponent({
   font-size: 20px;
   font-weight: 900;
 }
+
 #btnJoin {
   width: 60px;
   height: 60px;
@@ -303,8 +304,8 @@ export default defineComponent({
 }
 
 .head {
- display: flex;
- justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
 #lbl__session {
@@ -312,8 +313,8 @@ export default defineComponent({
 }
 
 ion-col {
-    text-align: center;
-  }
+  text-align: center;
+}
 
 ion-title {
   --color: rgb(255, 255, 255);
