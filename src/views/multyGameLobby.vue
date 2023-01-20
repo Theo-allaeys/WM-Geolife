@@ -54,7 +54,7 @@
 import MapDiv from '@/components/Map';
 import { geolocalisation } from '../stores/loginstore';
 import { Radiusstore } from '../stores/loginstore';
-import {writeUserData, getAllOnValueFromDB, getAllOnceFromDB, writeNewPoi} from "@/components/firebase"
+import { writeUserData, getAllOnValueFromDB, getAllOnceFromDB, writeNewPoi } from "@/components/firebase"
 import { inject } from 'vue';
 const axios = inject('axios')
 // import { useIonRouter } from '@ionic/vue';
@@ -162,7 +162,7 @@ function alertId() {
   btnSessionId.textContent = generateSessionID;
   btnSessionId.disabled = true;
   addPlayer(localStorage.getItem("pseudo"));
-  writeUserData(localStorage.getItem("pseudo"),generateSessionID, true);
+  writeUserData(localStorage.getItem("pseudo"), generateSessionID, true);
   writeNewPoi(generateSessionID);
 }
 
@@ -188,32 +188,28 @@ export default defineComponent({
 });
 
 function addPlayer2(name) {
-    document.getElementById("player1").textContent = "empty";
-    document.getElementById("player2").textContent = "empty";
-    document.getElementById("player3").textContent = "empty";
-    document.getElementById("player4").textContent = "empty";
-    switch (aantalSpelers2) {
-      case 0:
-        document.getElementById("player1").textContent = name;
-        aantalSpelers2 = 1;
-        break;
-      case 1:
-        document.getElementById("player2").textContent = name;
-        aantalSpelers2 = 2;
-        break;
-      case 2:
-        document.getElementById("player3").textContent = name;
-        aantalSpelers2 = 3;
-        break;
-      case 3:
-        document.getElementById("player4").textContent = name;
-        aantalSpelers2 = 4;
-        break;
-      default:
-        console.log("Too many players");
-        break;
-    }
+  switch (aantalSpelers2) {
+    case 0:
+      document.getElementById("player1").textContent = name;
+      aantalSpelers2 = 1;
+      break;
+    case 1:
+      document.getElementById("player2").textContent = name;
+      aantalSpelers2 = 2;
+      break;
+    case 2:
+      document.getElementById("player3").textContent = name;
+      aantalSpelers2 = 3;
+      break;
+    case 3:
+      document.getElementById("player4").textContent = name;
+      aantalSpelers2 = 4;
+      break;
+    default:
+      console.log("Too many players");
+      break;
   }
+}
 
 
 const joinSession = async () => {
@@ -241,14 +237,7 @@ const joinSession = async () => {
         document.getElementById("btnTimeStart").disabled = true;
         const data2 = getAllOnValueFromDB("/users");
         data2.then(function (result) {
-          for (var key in result) {
-            listUsers.push([key, result[key]["leader"], result[key]["score"], result[key]["session"], result[key]["time"]]);
-          }
-          listUsers.forEach(e => {
-            if (e[3] == number) {
-              addPlayer2(e[0]);
-            }
-          });
+          playerrefresh(result);
         })
       }
 
@@ -269,18 +258,24 @@ const FullAlert = async (message) => {
 };
 
 export function playerrefresh(data) {
+  document.getElementById("player1").textContent = "empty";
+  document.getElementById("player2").textContent = "empty";
+  document.getElementById("player3").textContent = "empty";
+  document.getElementById("player4").textContent = "empty";
+  aantalSpelers2 = 0
   let number = document.getElementById("inpJoin").value;
   writeUserData(localStorage.getItem("pseudo"), parseInt(number, 10), false);
   document.getElementById("btnTimeStart").disabled = true;
   let listUsers = [];
-    for (var key in data) {
-      listUsers.push([key, data[key]["leader"], data[key]["score"], data[key]["session"], data[key]["time"]]);
+  for (var key in data) {
+    listUsers.push([key, data[key]["leader"], data[key]["score"], data[key]["session"], data[key]["time"]]);
+  }
+  console.log(listUsers);
+  listUsers.forEach(e => {
+    if (e[3] == number) {
+      addPlayer2(e[0]);
     }
-    listUsers.forEach(e => {
-      if (e[3] == number) {
-        addPlayer2(e[0]);
-      }
-    });
+  });
 
 }
 </script>
