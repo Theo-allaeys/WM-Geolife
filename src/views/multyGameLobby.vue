@@ -186,7 +186,8 @@ export function playerrefresh(data) {
       listUsers.push([key, data[key]["leader"], data[key]["score"], data[key]["session"], data[key]["time"]]);
     }
     listUsers.forEach(e => {if (e[3] == number) {addPlayer2(e[0]);}
-});
+  });
+}
 
 function addPlayer2(name) {
 
@@ -269,7 +270,6 @@ const FullAlert = async (message) => {
     });
   await alert.present();
 };
-}
 </script>
 
 <style>
