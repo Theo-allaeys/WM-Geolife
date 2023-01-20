@@ -188,6 +188,10 @@ export default defineComponent({
 });
 
 function addPlayer2(name) {
+    document.getElementById("player1").textContent = "empty";
+    document.getElementById("player2").textContent = "empty";
+    document.getElementById("player3").textContent = "empty";
+    document.getElementById("player4").textContent = "empty";
     switch (aantalSpelers2) {
       case 0:
         document.getElementById("player1").textContent = name;
