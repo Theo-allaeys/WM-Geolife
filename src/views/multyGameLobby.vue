@@ -269,6 +269,7 @@ const FullAlert = async (message) => {
     });
   await alert.present();
 };
+}
 </script>
 
 <style>
