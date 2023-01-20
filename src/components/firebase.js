@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getDatabase, ref, get, onValue, set } from "firebase/database"
+import {getDatabase, ref, onValue, set, get} from "firebase/database"
+import { playerrefresh } from "@/views/multyGameLobby.vue"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,19 +18,12 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// Neemt data ene keer op.
 
 export async function getAllOnceFromDB(path) {
   const db = getDatabase(app);
   let data;
-  if (path == "none") {
-    const dref = ref(db,'/')
-    data = await get(dref);
-  }
-  else {
-    const dref = ref(db,path)
-    data = await get(dref);
-  }
+  const dref = ref(db,path)
+  data = await get(dref);
   if(data.exists()){
     return data.val();
   }
@@ -40,22 +34,20 @@ export function getAllOnValueFromDB(path) {
   return new Promise((resolve) => {
     const db = getDatabase(app);
     let data;
-    if (path == "none") {
-      const dref = ref(db,'/')
-      onValue(dref, (snapshot) => {
-        data = snapshot.val();
-        resolve(data);
+    const dref = ref(db,path)
+    onValue(dref, (snapshot) => {
+      data = snapshot.val();
+      console.log("Test");
+      resolve(data);
+      playerrefresh(data);
       });
-    }
-    else {
-      const dref = ref(db,path)
-      onValue(dref, (snapshot) => {
-        data = snapshot.val();
-        resolve(data);
-      });
-    }
   });
 }
+
+
+// export function refreshUsers(data) {
+// return data;
+// }
 
 
 export function writeUserData(pseudo, sessionid, leaderTF) {
@@ -67,3 +59,24 @@ export function writeUserData(pseudo, sessionid, leaderTF) {
     leader: leaderTF
   });
 }
+
+export function writeNewPoi(sessionid) {
+  const db = getDatabase();
+  set(ref(db, '/sessions/' + sessionid), {
+    idPoi:0,
+    time: 0
+  });
+}
+
+export function SelectListenNewPoi(sessionid) {
+  const db = getDatabase(app);
+  let data;
+  const dref = ref(db,'/sessions/' + sessionid);
+  onValue(dref, (snapshot) => {
+  data = snapshot.val();
+  console.log(data);
+  });
+}
+
+
+

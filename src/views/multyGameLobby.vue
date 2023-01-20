@@ -50,19 +50,19 @@
   </template>
 
 <script setup>
-import MapDiv from '@/components/Map'
-// import { geolocalisation } from '../stores/loginstore';
-// import { gameSession } from '../stores/loginstore';
+import MapDiv from '@/components/Map';
+import { geolocalisation } from '../stores/loginstore';
+import { Radiusstore } from '../stores/loginstore';
+import {writeUserData, getAllOnValueFromDB, getAllOnceFromDB, writeNewPoi} from "@/components/firebase"
+import { inject } from 'vue';
+const axios = inject('axios')
 // import { useIonRouter } from '@ionic/vue';
-// import { Radiusstore } from '../stores/loginstore';
-// const storeradius = Radiusstore();
 // const ionRouter = useIonRouter();
-// const storeGeo = geolocalisation();
-// const storegame = gameSession();
-// import {writeUserData, getAllOnValueFromDB, getAllOnceFromDB} from "@/components/firebase"
-import {writeUserData, getAllOnceFromDB, getAllOnValueFromDB} from "@/components/firebase"
+const storeradius = Radiusstore();
+const storeGeo = geolocalisation();
 let aantalSpelers = 0;
 let time = 15;
+let sessionIdStart;
 //let sessionid = 9999;
 function addPlayer(name) {
     if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
@@ -109,19 +109,65 @@ function timeM() {
   lblTime.textContent = time + " MIN";
 }
 
+const getallPOI = () => {
+  axios
+    .post('https://theoallaeys2021.be/web&mobile/taak1/api/getallPOI.php')
+    .then(response => {
+      // controleer de response
+      if (response.status !== 200) {
+        // er is iets fout gegaan, doe iets met deze info
+        console.log(response.status);
+      }
+      if (!response.data.data) {
+        console.log('response.data.data is not ok');
+        return;
+      } else {
+        let selectablePOI = [];
+        for (let i = 0, end = response.data.data.length; i < end; i++) {
+          if (Math.round(getDistanceFromLatLonInKm(storeGeo.$state.lat, storeGeo.$state.lat, response.data.data[i].latitude, response.data.data[i].longitude)) <= storeradius.radius) {
+            selectablePOI.push(response.data.data[i].id);
+          }
+        }
+        if (selectablePOI.length == 0) {
+          FullAlert("There is no avaible points from your location")
+        } else {
+          let rndInt = Math.floor(Math.random() * selectablePOI.length);
+          console.log("id: " + selectablePOI[rndInt] + " time: " + time + " sessionid: " + sessionIdStart);
+        }
+      }
+    });
+}
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+  var dLon = deg2rad(lon2 - lon1);
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c; // Distance in km
+  return d;
+}
+function deg2rad(deg) {
+  return deg * (Math.PI / 180)
+}
+
 function alertId() {
   let btnSessionId = document.getElementById("btn_ownSession");
   let generateSessionID = Math.floor(Math.random() * 90000000) + 10000000;
+  sessionIdStart = generateSessionID;
   btnSessionId.textContent = generateSessionID;
   btnSessionId.disabled = true;
   addPlayer(localStorage.getItem("pseudo"));
   writeUserData(localStorage.getItem("pseudo"),generateSessionID, true);
+  writeNewPoi(generateSessionID);
 }
 
-// function start() {
-//   storegame.addGame(sessionid, time, storeGeo.$state.lat, storeGeo.$state.lon, storeradius.$state.radius);
-//   ionRouter.push('/tabs/tab5');
-// }
+function start() {
+  getallPOI();
+}
 
 </script>
 
@@ -131,21 +177,24 @@ import { defineComponent } from "vue";
 import { alertController } from '@ionic/vue';
 let aantalSpelers2 = 0;
 
-export default defineComponent({
-  data() {
-    return {
-      theme: localStorage.getItem("themeSet"),
-      store,
-    };
-  }
-}); 
+export function playerrefresh(data) {
+  let number = document.getElementById("inpJoin").value;
+  writeUserData(localStorage.getItem("pseudo"), parseInt(number, 10), false);
+  document.getElementById("btnTimeStart").disabled = true;
+  let listUsers = [];
+    for (var key in data) {
+      listUsers.push([key, data[key]["leader"], data[key]["score"], data[key]["session"], data[key]["time"]]);
+    }
+    listUsers.forEach(e => {if (e[3] == number) {addPlayer2(e[0]);}
+});
 
 function addPlayer2(name) {
-    if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
+
+  if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
       console.log("You are already here !!!");
     }
     else {
-        switch (aantalSpelers2) {
+    switch (aantalSpelers2) {
         case 0:
             document.getElementById("player1").textContent = name;
             aantalSpelers2 = 1;
@@ -165,8 +214,8 @@ function addPlayer2(name) {
         default:
             console.log("Too many players");
             break;
-    }
-    }
+  }
+ }
 }
 
 const joinSession = async () => {
