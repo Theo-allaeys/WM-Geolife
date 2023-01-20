@@ -171,10 +171,15 @@ const getallPOI = () => {
     });
 }
 
+function calculateScore(time_used, distance_ratio, time_max) {
+  console.log(Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio)))
+  return Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio));
+}
+
 function EndGame() {
   let timesec = hmsToSecondsOnly(document.getElementById("lblTime2").textContent);
   Geolocation.getCurrentPosition().then((coordinates) => {
-    Distance = getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude);
+    Distance = getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000;
     console.log("check distance " + Distance);
 
     let timeleft = 0;
@@ -187,10 +192,6 @@ function EndGame() {
       case 90: timeleft = 5400; break;
       case 105: timeleft = 6300; break;
       case 120: timeleft = 7200; break;
-    }
-    function calculateScore(time_used, distance_ratio, time_max) {
-      console.log(Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio)))
-      return Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio));
     }
     scorestore.addscore(calculateScore((timeleft - timesec), (InitialDistance - Distance) / InitialDistance, timeleft));
     ionRouter.push('/tabs/tab7');

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set, get } from "firebase/database"
-import { playerrefresh } from "@/views/multyGameLobby.vue"
+// import { playerrefresh } from "@/views/multyGameLobby.vue"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -34,21 +34,16 @@ export function getAllOnValueFromDB(path) {
   return new Promise((resolve) => {
     const db = getDatabase(app);
     let data;
-    const dref = ref(db, path)
-    onValue(dref, (snapshot) => {
-      data = snapshot.val();
-      console.log(data);
-      resolve(data);
-      playerrefresh(data);
-
-    });
+      const dref = ref(db,path)
+      onValue(dref, (snapshot) => {
+        data = snapshot.val();
+        resolve(data);
+        console.log("test " + JSON.stringify(data))
+      });
   });
 }
 
 
-// export function refreshUsers(data) {
-// return data;
-// }
 
 
 export function writeUserData(pseudo, sessionid, leaderTF) {
@@ -79,5 +74,13 @@ export function SelectListenNewPoi(sessionid) {
   });
 }
 
-
+const db = getDatabase(app);
+let data;
+const dref = ref(db, "/users/");
+onValue(dref, (snapshot) => {
+  data = snapshot.val();
+  for (var key in data) {
+    console.log([key, data[key]["leader"], data[key]["score"], data[key]["session"], data[key]["time"]]);
+  }
+});
 
