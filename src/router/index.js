@@ -49,6 +49,10 @@ const routes = [
       {
         path: 'tab9',
         component: () => import('@/views/multyGameLobby.vue')
+      },
+      {
+        path: 'tab10',
+        component: () => import('@/views/GameMulty.vue')
       }
     ]
   }

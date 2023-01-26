@@ -24,6 +24,24 @@ export const gameSession = defineStore('game', {
   }
 })
 
+export const gameMulty = defineStore('multy', {
+  state: () => ({
+    sessionID: [],
+    time: [],
+    poi: []
+  }),
+  actions: {
+    addMulty(sessionID, time, poi) {
+      this.sessionID = [];
+      this.sessionID.push(sessionID);
+      this.time = [];
+      this.time.push(time);
+      this.poi = [];
+      this.poi.push(poi);
+    }
+  }
+})
+
 export const geolocalisation = defineStore('geolocation', {
   state: () => ({
     lat: [],

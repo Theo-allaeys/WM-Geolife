@@ -15,7 +15,7 @@
           <ion-label id="lblTime">15 MIN</ion-label>
           <ion-button class="btnTime" @click="timeP()" :class="store.theme" strong="true">+</ion-button>
           <ion-button class="btnTime" @click="timeM()" :class="store.theme" strong="true">-</ion-button>
-          <ion-button class="btnTimeS" id="btnTimeStart" :class="store.theme" strong="true" @click="start()">Start</ion-button>
+          <ion-button class="btnTimeS" id="btnTimeStart" :class="store.theme" strong="true" @click="start(),$router.push({ path: '/tabs/tab10' })">Start</ion-button>
         </div>
         <ion-grid>
           <ion-row>
@@ -53,16 +53,16 @@
 import MapDiv from '@/components/Map';
 import { geolocalisation } from '../stores/loginstore';
 import { Radiusstore } from '../stores/loginstore';
-import { writeUserData, getAllOnceFromDB, writeNewPoi, getAllOnValueFromDB, onValueSession} from "@/components/firebase"
+import { writeUserData, writeNewSessionGame,getAllOnceFromDB, writeNewPoi, getAllOnValueFromDB, onValueSession} from "@/components/firebase"
 import { inject } from 'vue';
-const axios = inject('axios')
-// import { useIonRouter } from '@ionic/vue';
-// const ionRouter = useIonRouter();
+import { useIonRouter } from '@ionic/vue';
+const axios = inject('axios');
 const storeradius = Radiusstore();
 const storeGeo = geolocalisation();
 let aantalSpelers = 0;
 let time = 15;
 let sessionIdStart;
+let globalPoiID;
 function addPlayer(name) {
   if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
     console.log("You are already here !!!");
@@ -101,6 +101,8 @@ function timeP() {
 }
 
 function timeM() {
+  const ionRouter = useIonRouter();
+  ionRouter.push('/tabs/tab1');
   const lblTime = document.getElementById("lblTime");
   if (time > 15) {
     time -= 15;
@@ -123,8 +125,7 @@ const getallPOI = () => {
       } else {
         let selectablePOI = [];
         for (let i = 0, end = response.data.data.length; i < end; i++) {
-          // console.log(Math.round(getDistanceFromLatLonInKm(storeGeo.$state.lat, storeGeo.$state.lat, response.data.data[i].latitude, response.data.data[i].longitude)) <= storeradius.radius);
-          if (Math.round(getDistanceFromLatLonInKm(storeGeo.$state.lat, storeGeo.$state.lat, response.data.data[i].latitude, response.data.data[i].longitude)) <= storeradius.radius) {
+          if (Math.round(getDistanceFromLatLonInKm(storeGeo.$state.lat, storeGeo.$state.lon, response.data.data[i].latitude, response.data.data[i].longitude)) <= storeradius.radius) {
             selectablePOI.push(response.data.data[i].id);
           }
         }
@@ -133,6 +134,8 @@ const getallPOI = () => {
         } else {
           let rndInt = Math.floor(Math.random() * selectablePOI.length);
           console.log("id: " + selectablePOI[rndInt] + " time: " + time + " sessionid: " + sessionIdStart);
+          globalPoiID = selectablePOI[rndInt];
+          writeNewSessionGame(globalPoiID, time, sessionIdStart);
         }
       }
     });
@@ -145,7 +148,7 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c; // Distance in km
-  return Math.round(d/1000);
+  return d;
 }
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
@@ -161,8 +164,7 @@ function alertId() {
   writeUserData(localStorage.getItem("pseudo"), generateSessionID, true);
   writeNewPoi(generateSessionID);
   getAllOnValueFromDB("/" + generateSessionID);
-  onValueSession("/sessions/" + generateSessionID);
-  sessionIdStart = generateSessionID;
+  onValueSession("/sessions/" + generateSessionID, generateSessionID);
 }
 
 function start() {
@@ -185,6 +187,8 @@ export default defineComponent({
     };
   }
 });
+
+
 
 export function addPlayer2(name) {
   if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
@@ -217,6 +221,8 @@ export function addPlayer2(name) {
   }
 }
 
+
+
 const joinSession = async () => {
   let number = document.getElementById("inpJoin").value;
   let listUsers = [];
@@ -237,7 +243,7 @@ const joinSession = async () => {
         addPlayer2(localStorage.getItem("pseudo"));
         getAllOnValueFromDB("/" + number);
         document.getElementById("btnTimeStart").disabled = true;
-        onValueSession("/sessions/" + number);
+        onValueSession("/sessions/" + number, number);
       }
     })
   }

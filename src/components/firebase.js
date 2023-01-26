@@ -1,7 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue, set, get } from "firebase/database"
-// import { addPlayer2 } from "@/views/multyGameLobby.vue"
+import { getDatabase, ref, onValue, set, get } from "firebase/database";
+import { gameMulty } from '../stores/loginstore';
+// import { goGamePage } from "@/views/multyGameLobby.vue";
+const storegameMulty = gameMulty();
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -48,22 +50,28 @@ export function getAllOnValueFromDB(path) {
   });
 }
 
-export function onValueSession(path) {
+export function onValueSession(path, session) {
   const db = getDatabase();
   const starCountRef = ref(db, path);
   onValue(starCountRef, (snapshot) => {
   const data = snapshot.val();
-  if (data.time == 0 && data.idPoi == 0) {
-    console.log("Game is not Started");
+  if (data.time != 0 && data.idPoi != 0) {
+    console.log("Game Started");
+    storegameMulty.addMulty(session,data.time,data.idPoi);
   }  
   else {
-    console.log("Game Started");
+    console.log("Game is not Started");
   }
   });
 }
 
-
-
+export function writeNewSessionGame(idPoi, time, sessionid) {
+  const db = getDatabase();
+  set(ref(db, '/sessions/' + sessionid), {
+    idPoi: idPoi,
+    time: time
+  });
+}
 
 export function writeUserData(pseudo, sessionid, leaderTF) {
   const db = getDatabase();
