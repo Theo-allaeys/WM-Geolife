@@ -15,8 +15,7 @@
           <ion-label id="lblTime">15 MIN</ion-label>
           <ion-button class="btnTime" @click="timeP()" :class="store.theme" strong="true">+</ion-button>
           <ion-button class="btnTime" @click="timeM()" :class="store.theme" strong="true">-</ion-button>
-          <ion-button class="btnTimeS" id="btnTimeStart" :class="store.theme" strong="true"
-            @click="start()">Start</ion-button>
+          <ion-button class="btnTimeS" id="btnTimeStart" :class="store.theme" strong="true" @click="start()">Start</ion-button>
         </div>
         <ion-grid>
           <ion-row>
@@ -54,7 +53,7 @@
 import MapDiv from '@/components/Map';
 import { geolocalisation } from '../stores/loginstore';
 import { Radiusstore } from '../stores/loginstore';
-import { writeUserData, getAllOnceFromDB, writeNewPoi, getAllOnValueFromDB } from "@/components/firebase"
+import { writeUserData, getAllOnceFromDB, writeNewPoi, getAllOnValueFromDB, onValueSession} from "@/components/firebase"
 import { inject } from 'vue';
 const axios = inject('axios')
 // import { useIonRouter } from '@ionic/vue';
@@ -64,7 +63,6 @@ const storeGeo = geolocalisation();
 let aantalSpelers = 0;
 let time = 15;
 let sessionIdStart;
-//let sessionid = 9999;
 function addPlayer(name) {
   if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
     console.log("You are already here !!!");
@@ -125,6 +123,7 @@ const getallPOI = () => {
       } else {
         let selectablePOI = [];
         for (let i = 0, end = response.data.data.length; i < end; i++) {
+          // console.log(Math.round(getDistanceFromLatLonInKm(storeGeo.$state.lat, storeGeo.$state.lat, response.data.data[i].latitude, response.data.data[i].longitude)) <= storeradius.radius);
           if (Math.round(getDistanceFromLatLonInKm(storeGeo.$state.lat, storeGeo.$state.lat, response.data.data[i].latitude, response.data.data[i].longitude)) <= storeradius.radius) {
             selectablePOI.push(response.data.data[i].id);
           }
@@ -143,13 +142,10 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1);  // deg2rad below
   var dLon = deg2rad(lon2 - lon1);
-  var a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c; // Distance in km
-  return d;
+  return Math.round(d/1000);
 }
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
@@ -165,6 +161,8 @@ function alertId() {
   writeUserData(localStorage.getItem("pseudo"), generateSessionID, true);
   writeNewPoi(generateSessionID);
   getAllOnValueFromDB("/" + generateSessionID);
+  onValueSession("/sessions/" + generateSessionID);
+  sessionIdStart = generateSessionID;
 }
 
 function start() {
@@ -219,14 +217,6 @@ export function addPlayer2(name) {
   }
 }
 
-export function clearAll(){
-  document.getElementById("player1").textContent = "empty";
-  document.getElementById("player2").textContent = "empty";
-  document.getElementById("player3").textContent = "empty";
-  document.getElementById("player4").textContent = "empty";
-}
-
-
 const joinSession = async () => {
   let number = document.getElementById("inpJoin").value;
   let listUsers = [];
@@ -246,6 +236,8 @@ const joinSession = async () => {
         writeUserData(localStorage.getItem("pseudo"),number, false);
         addPlayer2(localStorage.getItem("pseudo"));
         getAllOnValueFromDB("/" + number);
+        document.getElementById("btnTimeStart").disabled = true;
+        onValueSession("/sessions/" + number);
       }
     })
   }

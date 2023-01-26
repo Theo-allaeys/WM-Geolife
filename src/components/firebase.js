@@ -48,6 +48,20 @@ export function getAllOnValueFromDB(path) {
   });
 }
 
+export function onValueSession(path) {
+  const db = getDatabase();
+  const starCountRef = ref(db, path);
+  onValue(starCountRef, (snapshot) => {
+  const data = snapshot.val();
+  if (data.time == 0 && data.idPoi == 0) {
+    console.log("Game is not Started");
+  }  
+  else {
+    console.log("Game Started");
+  }
+  });
+}
+
 
 
 
