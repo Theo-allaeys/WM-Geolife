@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set, get } from "firebase/database"
-// import { playerrefresh } from "@/views/multyGameLobby.vue"
+// import { addPlayer2 } from "@/views/multyGameLobby.vue"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -33,12 +33,17 @@ export async function getAllOnceFromDB(path) {
 export function getAllOnValueFromDB(path) {
   return new Promise((resolve) => {
     const db = getDatabase(app);
+    let compteur = 0;
     let data;
       const dref = ref(db,path)
       onValue(dref, (snapshot) => {
         data = snapshot.val();
         resolve(data);
-        console.log("test " + JSON.stringify(data))
+        for (var e in data) {
+          compteur++;
+          document.getElementById("player" + compteur).textContent = e;
+        }
+        compteur = 0;
       });
   });
 }
@@ -48,11 +53,11 @@ export function getAllOnValueFromDB(path) {
 
 export function writeUserData(pseudo, sessionid, leaderTF) {
   const db = getDatabase();
-  set(ref(db, '/users/' + pseudo), {
-    session: sessionid,
+  set(ref(db, '/' + sessionid + '/' + pseudo), {
     time: 0,
     score: 0,
-    leader: leaderTF
+    leader: leaderTF,
+    finish: false
   });
 }
 

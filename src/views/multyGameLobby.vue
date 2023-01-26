@@ -54,7 +54,7 @@
 import MapDiv from '@/components/Map';
 import { geolocalisation } from '../stores/loginstore';
 import { Radiusstore } from '../stores/loginstore';
-import { writeUserData, getAllOnValueFromDB, getAllOnceFromDB, writeNewPoi } from "@/components/firebase"
+import { writeUserData, getAllOnceFromDB, writeNewPoi, getAllOnValueFromDB } from "@/components/firebase"
 import { inject } from 'vue';
 const axios = inject('axios')
 // import { useIonRouter } from '@ionic/vue';
@@ -164,6 +164,7 @@ function alertId() {
   addPlayer(localStorage.getItem("pseudo"));
   writeUserData(localStorage.getItem("pseudo"), generateSessionID, true);
   writeNewPoi(generateSessionID);
+  getAllOnValueFromDB("/" + generateSessionID);
 }
 
 function start() {
@@ -187,60 +188,65 @@ export default defineComponent({
   }
 });
 
-function addPlayer2(name) {
-  switch (aantalSpelers2) {
-    case 0:
-      document.getElementById("player1").textContent = name;
-      aantalSpelers2 = 1;
-      break;
-    case 1:
-      document.getElementById("player2").textContent = name;
-      aantalSpelers2 = 2;
-      break;
-    case 2:
-      document.getElementById("player3").textContent = name;
-      aantalSpelers2 = 3;
-      break;
-    case 3:
-      document.getElementById("player4").textContent = name;
-      aantalSpelers2 = 4;
-      break;
-    default:
-      console.log("Too many players");
-      break;
+export function addPlayer2(name) {
+  if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
+    console.log("You are already here !!!");
+  } 
+  else {
+    switch (aantalSpelers2) {
+      case 0:
+        document.getElementById("player1").textContent = name;
+        aantalSpelers2 = 1;
+        break;
+      case 1:
+        document.getElementById("player2").textContent = name;
+        aantalSpelers2 = 2;
+        break;
+      case 2:
+        document.getElementById("player3").textContent = name;
+        aantalSpelers2 = 3;
+        break;
+      case 3:
+        document.getElementById("player4").textContent = name;
+        aantalSpelers2 = 4;
+        break;
+      default:
+        aantalSpelers2++;
+        console.log("Too many players: " + aantalSpelers2);
+        break;
+    }
+    aantalSpelers2 = 0;
   }
+}
+
+export function clearAll(){
+  document.getElementById("player1").textContent = "empty";
+  document.getElementById("player2").textContent = "empty";
+  document.getElementById("player3").textContent = "empty";
+  document.getElementById("player4").textContent = "empty";
 }
 
 
 const joinSession = async () => {
   let number = document.getElementById("inpJoin").value;
-  let listUsers = [[]];
-  //let listSessionUsers = [];
+  let listUsers = [];
   let aantalInSession = 0;
   const reg = /^\d{8}$/;
   if (reg.test(number)) {
-    const data = getAllOnceFromDB("/users");
+    const data = getAllOnceFromDB("/" + number + "/");
     data.then(function (result) {
       for (var key in result) {
-        listUsers.push([key, result[key]["leader"], result[key]["score"], result[key]["session"], result[key]["time"]]);
+        listUsers.push(key);
+        aantalInSession++;
       }
-      listUsers.forEach(e => {
-        if (e[3] == number) {
-          aantalInSession++;
-        }
-      });
-      listUsers = [[]];
       if (aantalInSession == 0) { FullAlert("This session does not exist"); }
       if (aantalInSession >= 4) { FullAlert("This session is already full"); }
       if (aantalInSession >= 1 && aantalInSession < 4) {
-        writeUserData(localStorage.getItem("pseudo"), parseInt(number, 10), false);
-        document.getElementById("btnTimeStart").disabled = true;
-        const data2 = getAllOnValueFromDB("/users");
-        data2.then(function (result) {
-          playerrefresh(result);
-        })
+        listUsers.forEach(e => addPlayer2(e));
+        writeUserData(localStorage.getItem("pseudo"),number, false);
+        addPlayer2(localStorage.getItem("pseudo"));
+        getAllOnValueFromDB("/" + number);
       }
-
     })
   }
   else {
@@ -256,28 +262,6 @@ const FullAlert = async (message) => {
   });
   await alert.present();
 };
-
-export function playerrefresh(data) {
-  document.getElementById("player1").textContent = "empty";
-  document.getElementById("player2").textContent = "empty";
-  document.getElementById("player3").textContent = "empty";
-  document.getElementById("player4").textContent = "empty";
-  aantalSpelers2 = 0
-  let number = document.getElementById("inpJoin").value;
-  writeUserData(localStorage.getItem("pseudo"), parseInt(number, 10), false);
-  document.getElementById("btnTimeStart").disabled = true;
-  let listUsers = [];
-  for (var key in data) {
-    listUsers.push([key, data[key]["leader"], data[key]["score"], data[key]["session"], data[key]["time"]]);
-  }
-  console.log(listUsers);
-  listUsers.forEach(e => {
-    if (e[3] == number) {
-      addPlayer2(e[0]);
-    }
-  });
-
-}
 </script>
 
 <style>
