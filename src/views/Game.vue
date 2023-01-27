@@ -172,8 +172,8 @@ const getallPOI = () => {
 }
 
 function calculateScore(time_used, distance_ratio, time_max) {
-  console.log(Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio)))
-  return Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio));
+  console.log(Math.round((1 - (time_used / time_max) * 0.1) * (90 * distance_ratio)));
+  return Math.round((1 - (time_used / time_max) * 0.1) * (90 * distance_ratio));
 }
 
 function EndGame() {

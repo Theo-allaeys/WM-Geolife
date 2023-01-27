@@ -15,7 +15,7 @@
           <ion-label id="lblTime">15 MIN</ion-label>
           <ion-button class="btnTime" @click="timeP()" :class="store.theme" strong="true">+</ion-button>
           <ion-button class="btnTime" @click="timeM()" :class="store.theme" strong="true">-</ion-button>
-          <ion-button class="btnTimeS" id="btnTimeStart" :class="store.theme" strong="true" @click="start(),$router.push({ path: '/tabs/tab10' })">Start</ion-button>
+          <ion-button class="btnTimeS" id="btnTimeStart" :class="store.theme" strong="true" @click="start()">Ready</ion-button>
         </div>
         <ion-grid>
           <ion-row>
@@ -56,6 +56,7 @@ import { Radiusstore } from '../stores/loginstore';
 import { writeUserData, writeNewSessionGame,getAllOnceFromDB, writeNewPoi, getAllOnValueFromDB, onValueSession} from "@/components/firebase"
 import { inject } from 'vue';
 import { useIonRouter } from '@ionic/vue';
+const $router = useIonRouter();
 const axios = inject('axios');
 const storeradius = Radiusstore();
 const storeGeo = geolocalisation();
@@ -63,6 +64,11 @@ let aantalSpelers = 0;
 let time = 15;
 let sessionIdStart;
 let globalPoiID;
+
+function movePage() {
+  $router.push({ path: '/tabs/tab10' });
+}
+
 function addPlayer(name) {
   if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
     console.log("You are already here !!!");
@@ -101,8 +107,6 @@ function timeP() {
 }
 
 function timeM() {
-  const ionRouter = useIonRouter();
-  ionRouter.push('/tabs/tab1');
   const lblTime = document.getElementById("lblTime");
   if (time > 15) {
     time -= 15;
@@ -168,7 +172,45 @@ function alertId() {
 }
 
 function start() {
-  getallPOI();
+  if (document.getElementById("btnTimeStart").textContent == "START") {
+    movePage();
+  } else {
+    getallPOI(); 
+  }
+}
+
+const joinSession = async () => {
+  if (document.getElementById("btnJoin").textContent == "START") {
+    movePage();
+  } 
+  else {
+  let number = document.getElementById("inpJoin").value;
+  let listUsers = [];
+  let aantalInSession = 0;
+  const reg = /^\d{8}$/;
+  if (reg.test(number)) {
+    const data = getAllOnceFromDB("/" + number + "/");
+    data.then(function (result) {
+      for (var key in result) {
+        listUsers.push(key);
+        aantalInSession++;
+      }
+      if (aantalInSession == 0) { FullAlert("This session does not exist"); }
+      if (aantalInSession >= 4) { FullAlert("This session is already full"); }
+      if (aantalInSession >= 1 && aantalInSession < 4) {
+        listUsers.forEach(e => addPlayer2(e));
+        writeUserData(localStorage.getItem("pseudo"),number, false);
+        addPlayer2(localStorage.getItem("pseudo"));
+        getAllOnValueFromDB("/" + number);
+        document.getElementById("btnTimeStart").disabled = true;
+        onValueSession("/sessions/" + number, number);
+      }
+    })
+  }
+    else {
+      FullAlert("A sessionid contains 8 numbers");
+    } 
+  }
 }
 
 </script>
@@ -188,7 +230,10 @@ export default defineComponent({
   }
 });
 
-
+export function getBtnReady() {
+  document.getElementById("btnTimeStart").textContent = "START";
+  document.getElementById("btnJoin").textContent = "START";
+}
 
 export function addPlayer2(name) {
   if (name == document.getElementById("player1").textContent || name == document.getElementById("player2").textContent || name == document.getElementById("player3").textContent || name == document.getElementById("player4").textContent) {
@@ -218,37 +263,6 @@ export function addPlayer2(name) {
         break;
     }
     aantalSpelers2 = 0;
-  }
-}
-
-
-
-const joinSession = async () => {
-  let number = document.getElementById("inpJoin").value;
-  let listUsers = [];
-  let aantalInSession = 0;
-  const reg = /^\d{8}$/;
-  if (reg.test(number)) {
-    const data = getAllOnceFromDB("/" + number + "/");
-    data.then(function (result) {
-      for (var key in result) {
-        listUsers.push(key);
-        aantalInSession++;
-      }
-      if (aantalInSession == 0) { FullAlert("This session does not exist"); }
-      if (aantalInSession >= 4) { FullAlert("This session is already full"); }
-      if (aantalInSession >= 1 && aantalInSession < 4) {
-        listUsers.forEach(e => addPlayer2(e));
-        writeUserData(localStorage.getItem("pseudo"),number, false);
-        addPlayer2(localStorage.getItem("pseudo"));
-        getAllOnValueFromDB("/" + number);
-        document.getElementById("btnTimeStart").disabled = true;
-        onValueSession("/sessions/" + number, number);
-      }
-    })
-  }
-  else {
-    FullAlert("A sessionid contains 8 numbers");
   }
 }
 

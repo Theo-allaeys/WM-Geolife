@@ -26,7 +26,7 @@
 import { ref, inject } from 'vue';
 import { useIonRouter, toastController } from '@ionic/vue';
 import { store } from "@/theme/theme";
-import { loggedinstore } from "@/stores/userstore"
+import { loggedinstore } from "@/stores/userstore";
 const axios = inject('axios')
 const Username = ref(''), Password = ref('');
 const ionRouter = useIonRouter();

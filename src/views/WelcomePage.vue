@@ -46,7 +46,7 @@ if (store.theme == null || store.theme == "null") {
 if (loggedinstore.loggedin == null || loggedinstore.loggedin == "null") {
 console.log("not logged in")
 }else {
-  ionRouter.push("/tabs/tab1")
+  ionRouter.push("/tabs/tab1");
 }
 </script>
 

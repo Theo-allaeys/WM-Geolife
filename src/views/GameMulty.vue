@@ -30,6 +30,7 @@ import { gameSession } from '../stores/loginstore';
 import { Scorestore } from '../stores/loginstore';
 import { ref, inject } from 'vue';
 import { gameMulty } from '../stores/loginstore';
+import { CompleetGame } from "@/components/firebase"
 const storegameMulty = gameMulty();
 const storesession = gameSession();
 const axios = inject('axios')
@@ -38,8 +39,6 @@ let InitialDistance = "";
 let sec = 60;
 let timeGame = storegameMulty.time - 1;
 let Distance;
-
-const coordUser = ref({ latitude: storesession.$state.lat[0], longitude: storesession.$state.lon[0] });
 const selectedPOI = ref({ id: null, latitude: null, longitude: null, namePoi: null, photo: null })
 console.log("game settings", storesession.$state)
 
@@ -74,7 +73,13 @@ function hmsToSecondsOnly(str) {
 
 function checkDistance() {
   Geolocation.getCurrentPosition().then((coordinates) => {
-    console.log(coordinates);
+    document.getElementById("lblDistance").textContent = Math.round(getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000) + " M";
+  });
+}
+
+function checkStantardDistance() {
+  Geolocation.getCurrentPosition().then((coordinates) => {
+    InitialDistance = getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000;
     document.getElementById("lblDistance").textContent = Math.round(getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000) + " M";
   });
 }
@@ -98,12 +103,12 @@ function startGame() {
       lblTime.textContent = " " + timeGame + ":" + sec + " ";
     }
     if (sec == 30 || sec == 0) {
-      checkDistance()
+      checkDistance();
     }
     if (timeGame < 0) {
       lblTime.textContent = " 00:00 ";
     }
-  }, 1000);
+  }, 100);
 }
 
 
@@ -129,27 +134,28 @@ const getPOIfromid = (selectedid) => {
         selectedPOI.value.namePoi = response.data.data[0].name;
         selectedPOI.value.photo = response.data.data[0].photo;
         document.getElementById("game").style.backgroundImage = "url(" + selectedPOI.value.photo + ")";
-        InitialDistance = getDistanceFromLatLonInKm(coordUser.value.latitude, coordUser.value.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000;
         document.getElementById("lblDistance").textContent = Math.round(InitialDistance) + " M";
-        console.log("initialdistance " + InitialDistance)
         startGame();
+        checkStantardDistance();
       }
     });
 };
 
 function calculateScore(time_used, distance_ratio, time_max) {
-  console.log(Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio)))
-  return Math.round((1 - (time_used / time_max) * 0.1) * (100 * distance_ratio));
+  console.log(Math.round((1 - (time_used / time_max) * 0.1) * (90 * distance_ratio)));
+  CompleetGame(localStorage.getItem("pseudo"),time_used,Math.round((1 - (time_used / time_max) * 0.1) * (90 * distance_ratio)), storegameMulty.$state.sessionID[0]);
 }
 
+
 function EndGame() {
+  checkDistance();
   let timesec = hmsToSecondsOnly(document.getElementById("lblTime2").textContent);
   Geolocation.getCurrentPosition().then((coordinates) => {
     Distance = getDistanceFromLatLonInKm(coordinates.coords.latitude, coordinates.coords.longitude, selectedPOI.value.latitude, selectedPOI.value.longitude) * 1000;
     console.log("check distance " + Distance);
 
     let timeleft = 0;
-    switch (storesession.$state.time[0]) {
+    switch (storegameMulty.$state.time[0]) {
       case 15: timeleft = 900; break;
       case 30: timeleft = 1800; break;
       case 45: timeleft = 2700; break;
@@ -162,9 +168,7 @@ function EndGame() {
     scorestore.addscore(calculateScore((timeleft - timesec), (InitialDistance - Distance) / InitialDistance, timeleft));
   });
 }
-
-getPOIfromid(storegameMulty.poi);
-
+getPOIfromid(storegameMulty.poi[0]);
 </script>
 
 <script>
