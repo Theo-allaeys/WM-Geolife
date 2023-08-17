@@ -31,6 +31,8 @@ import { Scorestore } from '../stores/loginstore';
 import { ref, inject } from 'vue';
 import { gameMulty } from '../stores/loginstore';
 import { CompleetGame } from "@/components/firebase"
+import { useIonRouter } from '@ionic/vue';
+const ionRouter = useIonRouter();
 const storegameMulty = gameMulty();
 const storesession = gameSession();
 const axios = inject('axios')
@@ -107,8 +109,9 @@ function startGame() {
     }
     if (timeGame < 0) {
       lblTime.textContent = " 00:00 ";
+      EndGame();
     }
-  }, 100);
+  }, 1000);
 }
 
 
@@ -166,6 +169,7 @@ function EndGame() {
       case 120: timeleft = 7200; break;
     }
     scorestore.addscore(calculateScore((timeleft - timesec), (InitialDistance - Distance) / InitialDistance, timeleft));
+    ionRouter.push('/tabs/tab11');
   });
 }
 getPOIfromid(storegameMulty.poi[0]);

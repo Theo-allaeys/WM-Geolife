@@ -53,6 +53,10 @@ const routes = [
       {
         path: 'tab10',
         component: () => import('@/views/GameMulty.vue')
+      },
+      {
+        path: 'tab11',
+        component: () => import('@/views/RewardScreenMulty.vue')
       }
     ]
   }

@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set, get } from "firebase/database";
 import { gameMulty } from '../stores/loginstore';
 import {getBtnReady} from "@/views/multyGameLobby.vue";
+import {givePlayers} from "@/views/RewardScreenMulty.vue";
+givePlayers
 const storegameMulty = gameMulty();
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -118,6 +120,19 @@ export function CompleetGame(pseudo, time, score, sessionid) {
     time: time,
     score: score,
     finish: true
+  });
+}
+
+export function EndGame(sessionid) {
+  const db = getDatabase(app);
+  let data;
+  const dref = ref(db, '/' + sessionid);
+  onValue(dref, (snapshot) => {
+    data = snapshot.val();
+    for (var key in data) {
+      console.log(data[key]["score"],data[key]["finish"],data[key]["time"]);
+      givePlayers(key, data[key]["score"], data[key]["time"]);
+    }
   });
 }
 

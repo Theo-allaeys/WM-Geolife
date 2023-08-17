@@ -102,6 +102,7 @@ function startGame() {
     }
     if (timeGame < 0) {
       lblTime.textContent = " 00:00 ";
+      EndGame();
     }
   }, 1000);
 }
